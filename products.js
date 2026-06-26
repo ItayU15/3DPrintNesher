@@ -10,7 +10,7 @@ const catalogProducts = [
   },
   {
     id: "prod_02",
-    name: "קליקר ניגירי",
+    name: "קליקר אצבע כפול",
     category: "קליקרים",
     price: 20,
     description: "גאדג'ט לחיצות ממכר שמתיישב בול על כף היד",
@@ -36,12 +36,3 @@ const catalogProducts = [
     inStock: true
   }
 ];
-  {
-    id: "prod_05",
-    name: "קליקר המבורגר",
-    category: "קליקרים",
-    price: 10,
-    description: "גאדג'ט לחיצות ממכר שמתיישב בול על כף היד",
-    image: "images/clicker.jpg",
-    inStock: true
-  },
