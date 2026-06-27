@@ -3,10 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3DPrintNesher - חנות התלת מימד</title>
+    <title>חנות התלת מימד של איתי ואיתי</title>
     <style>
         body { font-family: Arial, sans-serif; background-color: #f4f4f9; margin: 0; padding: 20px; color: #333; }
-        header { background-color: #2c3e50; color: white; padding: 20px; text-align: center; border-radius: 8px; margin-bottom: 20px; }
+        
+        /* עיצוב הכותרת החדשה והלוגו */
+        header { 
+            background-color: #2c3e50; 
+            color: white; 
+            padding: 20px; 
+            border-radius: 8px; 
+            margin-bottom: 15px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 20px; 
+            flex-wrap: wrap; 
+            text-align: center; 
+        }
+        .store-logo { 
+            width: 85px; 
+            height: 85px; 
+            border-radius: 12px; 
+            object-fit: contain; 
+            background: rgba(255,255,255,0.08); 
+            padding: 5px; 
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+        header h1 { margin: 0 0 6px 0; font-size: 1.65em; letter-spacing: 0.5px; }
+        header p { margin: 0; font-size: 1.05em; color: #bdc3c7; font-weight: 300; }
+        
+        #announcement-banner { display: none; background-color: #e67e22; color: white; text-align: center; padding: 10px; font-weight: bold; border-radius: 8px; margin-bottom: 15px; font-size: 1em; box-shadow: 0 2px 5px rgba(230,126,34,0.2); }
         
         .controls-bar { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 20px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 15px; }
         .filter-buttons { display: flex; flex-wrap: wrap; gap: 10px; }
@@ -30,7 +57,7 @@
         button.add-to-cart { background-color: #3498db; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; font-size: 1em; width: 100%; transition: background 0.2s; }
         button.add-to-cart:hover { background-color: #2980b9; }
         
-        /* סל קניות וטופס לקוח */
+        /* סל קניות וטופס */
         .cart { flex: 1; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); position: sticky; top: 20px; min-width: 290px; }
         .cart-item { border-bottom: 1px solid #eee; padding: 8px 0; font-size: 0.9em; display: flex; justify-content: space-between; align-items: center; }
         .cart-item-details { display: flex; flex-direction: column; text-align: right; }
@@ -47,37 +74,44 @@
 </head>
 <body>
 
+    <!-- אזור הכותרת עם הלוגו -->
     <header>
-        <h1>חנות מוצרי התלת מימד של איתי</h1>
-        <p>הדפסות מותאמות אישית ישירות מהיצרן</p>
+        <img class="store-logo" src="images/logo.png" alt="לוגו חנות התלת מימד" onerror="this.src='https://placehold.co/150x150/34495e/ffffff?text=3D+Logo'">
+        <div>
+            <h1>חנות התלת מימד של איתי ואיתי</h1>
+            <p>חנות מוצרי התלת מימד המובילה בנשר.</p>
+        </div>
     </header>
 
-    <div class="controls-bar">
-        <div class="filter-buttons">
-            <button class="filter-btn active" onclick="filterProducts('הכל', this)">כל המוצרים</button>
-            <button class="filter-btn" onclick="filterProducts('קליקרים', this)">קליקרים</button>
-            <button class="filter-btn" onclick="filterProducts('מחזיקי מפתחות', this)">מחזיקי מפתחות</button>
-            <button class="filter-btn" onclick="filterProducts('חלקים נעים', this)">חלקים נעים</button>
-            <button class="filter-btn" onclick="filterProducts('מיוחדים', this)">מיוחדים</button>
-            <button class="filter-btn" onclick="filterProducts('מוצרים בעיצוב אישי', this)">עיצוב אישי</button>
-        </div>
-        <div>
-            <select class="sort-select" onchange="sortProducts(this.value)">
-                <option value="default">מיין לפי...</option>
-                <option value="low-to-high">מחיר: מהנמוך לגבוה</option>
-                <option value="high-to-low">מחיר: מהגבוה לנמוך</option>
-            </select>
+    <div id="announcement-banner"></div>
+
+    <div id="store-controls-zone">
+        <div class="controls-bar">
+            <div class="filter-buttons">
+                <button class="filter-btn active" onclick="filterProducts('הכל', this)">כל המוצרים</button>
+                <button class="filter-btn" onclick="filterProducts('קליקרים', this)">קליקרים</button>
+                <button class="filter-btn" onclick="filterProducts('מחזיקי מפתחות', this)">מחזיקי מפתחות</button>
+                <button class="filter-btn" onclick="filterProducts('חלקים נעים', this)">חלקים נעים</button>
+                <button class="filter-btn" onclick="filterProducts('מיוחדים', this)">מיוחדים</button>
+                <button class="filter-btn" onclick="filterProducts('מוצרים בעיצוב אישי', this)">עיצוב אישי</button>
+            </div>
+            <div>
+                <select class="sort-select" onchange="sortProducts(this.value)">
+                    <option value="default">מיין לפי...</option>
+                    <option value="low-to-high">מחיר: מהנמוך לגבוה</option>
+                    <option value="high-to-low">מחיר: מהגבוה לנמוך</option>
+                </select>
+            </div>
         </div>
     </div>
 
-    <div class="container">
+    <div class="container" id="main-store-wrapper">
         <main class="catalog" id="catalog-container"></main>
 
-        <aside class="cart">
+        <aside class="cart" id="cart-aside">
             <h2>🛒 סל קניות</h2>
             <div id="cart-items"><p style="color: #777;">הסל ריק כרגע</p></div>
             
-            <!-- טופס הזמנה מובנה בסל -->
             <div class="cart-options">
                 <hr style="border: 0; border-top: 1px dashed #ccc; margin: 15px 0;">
                 
@@ -93,7 +127,6 @@
                     <option value="shipping">משלוח עד הבית (+20 ₪)</option>
                 </select>
 
-                <!-- אזור הכתובת - קופץ אוטומטית רק בבחירת משלוח -->
                 <div id="address-container" style="display: none; background: #fff8e1; padding: 5px; border-radius: 4px; border: 1px solid #ffe082;">
                     <label style="color: #d35400; margin-top: 2px;"><strong>כתובת מלאה למשלוח: *</strong></label>
                     <input type="text" id="cust-address" placeholder="עיר, רחוב, מספר בית ודירה">
@@ -123,21 +156,44 @@
 
     <script src="products.js"></script>
     <script>
-        // המספר המדויק שלך כבר מוטמע בפנים!
         const MY_PHONE_NUMBER = "972535559309"; 
-
 
         let selectedCategory = 'הכל';
         let selectedSort = 'default';
         let cart = [];
         let discount = 0;
 
+        function initStore() {
+            if (typeof storeSettings !== 'undefined') {
+                const banner = document.getElementById('announcement-banner');
+                if (storeSettings.announcement && storeSettings.announcement.active && storeSettings.announcement.text) {
+                    banner.innerText = storeSettings.announcement.text;
+                    banner.style.display = 'block';
+                }
+                
+                if (storeSettings.vacationMode && storeSettings.vacationMode.active) {
+                    const wrapper = document.getElementById('main-store-wrapper');
+                    const controls = document.getElementById('store-controls-zone');
+                    const msg = storeSettings.vacationMode.message || "החנות בעומס זמני, נחזור לקבל הזמנות בקרוב.";
+                    
+                    controls.style.display = 'none';
+                    wrapper.innerHTML = `
+                        <div style="grid-column: 1/-1; text-align: center; background: #fff5f5; color: #c53030; padding: 40px; border-radius: 8px; border: 2px solid #feb2b2; font-size: 1.25em; font-weight: bold; width: 100%; box-sizing: border-box; margin-top: 10px;">
+                            🏖️ ${msg}
+                        </div>
+                    `;
+                    return; 
+                }
+            }
+            displayProducts();
+        }
+
         function displayProducts() {
             const container = document.getElementById('catalog-container');
             container.innerHTML = ''; 
 
             if (typeof catalogProducts === 'undefined') {
-                container.innerHTML = '<p style="color:red; grid-column:1/-1;">שגיאה בטעינת products.js.</p>';
+                container.innerHTML = '<p style="color:red; grid-column:1/-1;">שגיאה בטעינת קטלוג המוצרים.</p>';
                 return;
             }
 
@@ -153,7 +209,7 @@
                 let colorsHtml = '';
                 if (prod.colors) {
                     colorsHtml = `<div class="color-selectors">`;
-                    if (prod.colors.primary) {
+                    if (prod.colors.primary && prod.colors.primary.length > 0) {
                         colorsHtml += `
                             <label>צבע עיקרי:</label>
                             <select id="primary-color-${prod.id}">
@@ -161,7 +217,7 @@
                             </select>
                         `;
                     }
-                    if (prod.colors.secondary) {
+                    if (prod.colors.secondary && prod.colors.secondary.length > 0) {
                         colorsHtml += `
                             <label>צבע משני:</label>
                             <select id="secondary-color-${prod.id}">
@@ -170,6 +226,11 @@
                         `;
                     }
                     colorsHtml += `</div>`;
+                }
+
+                let actionButtonHtml = `<button class="add-to-cart" onclick="addToCart('${prod.id}')">הוסף לסל</button>`;
+                if (prod.inStock === false) {
+                    actionButtonHtml = `<button class="add-to-cart" style="background-color:#a0aec0; cursor:not-allowed;" disabled>אזל מהמלאי זמנית</button>`;
                 }
 
                 card.innerHTML = `
@@ -182,7 +243,7 @@
                     </div>
                     <div>
                         <p class="price">${prod.price} ₪</p>
-                        <button class="add-to-cart" onclick="addToCart('${prod.id}')">הוסף לסל</button>
+                        ${actionButtonHtml}
                     </div>
                 `;
                 container.appendChild(card);
@@ -214,8 +275,21 @@
 
         function applyCoupon() {
             const code = document.getElementById('coupon-code').value.trim().toUpperCase();
-            if (code === 'NESHER10') { discount = 0.10; alert('קופון הופעל! 10% הנחה'); } 
-            else { discount = 0; alert('קוד לא תקין'); }
+            
+            if (typeof storeSettings !== 'undefined' && storeSettings.coupons) {
+                const foundCoupon = storeSettings.coupons.find(c => c.code === code && c.active);
+                
+                if (foundCoupon) {
+                    discount = foundCoupon.discountPercent / 100;
+                    alert(`קופון הופעל בהצלחה! קיבלת ${foundCoupon.discountPercent}% הנחה`);
+                } else {
+                    discount = 0;
+                    alert('קוד קופון שגוי, לא פעיל או פג תוקף');
+                }
+            } else {
+                if (code === 'NESHER10') { discount = 0.10; alert('קופון הופעל! 10% הנחה'); } 
+                else { discount = 0; alert('קוד לא תקין'); }
+            }
             updateCartDisplay();
         }
 
@@ -311,7 +385,7 @@
             text += `\n*🚚 אופן קבלה:* ${deliveryText}\n`;
             text += `*💳 תשלום מועדף:* ${paymentText}\n`;
             
-            if (discount > 0) { text += `*🏷️ קופון:* הופעלה הנחה (-10%)\n`; }
+            if (discount > 0) { text += `*🏷️ קופון:* הופעלה הנחה מהאתר\n`; }
             
             text += `\n*💰 סה"כ לתשלום: ${total} ₪*\n\n`;
             text += `אשמח לאישור הזמנה ופרטי תשלום!`;
@@ -322,7 +396,7 @@
             window.open(whatsappUrl, '_blank');
         }
 
-        window.onload = displayProducts;
+        window.onload = initStore;
     </script>
 </body>
 </html>
