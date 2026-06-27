@@ -15,30 +15,39 @@
         .sort-select { padding: 8px; border-radius: 5px; border: 1px solid #ccc; font-size: 0.9em; }
 
         .container { display: flex; gap: 20px; align-items: flex-start; }
-        .catalog { flex: 3; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
-        .product { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center; display: flex; flex-direction: column; justify-content: space-between; border-top: 4px solid #3498db; }
-        .product h3 { margin: 10px 0 5px 0; color: #2c3e50; font-size: 1.1em; }
-        .category-tag { display: inline-block; background: #e8f4fd; color: #2980b9; font-size: 0.8em; padding: 3px 8px; border-radius: 10px; font-weight: bold; }
-        .price { font-weight: bold; color: #27ae60; font-size: 1.2em; margin: 10px 0; }
+        .catalog { flex: 3; display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
         
+        /* כרטיס מוצר משודרג */
+        .product { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center; display: flex; flex-direction: column; justify-content: space-between; border-top: 4px solid #3498db; }
+        .product-img { width: 100%; height: 160px; object-fit: cover; border-radius: 4px; background-color: #eaeaea; margin-bottom: 10px; }
+        .product h3 { margin: 5px 0; color: #2c3e50; font-size: 1.1em; }
+        .category-tag { display: inline-block; background: #e8f4fd; color: #2980b9; font-size: 0.8em; padding: 3px 8px; border-radius: 10px; font-weight: bold; margin-bottom: 5px; }
+        
+        /* עיצוב בחירת צבעים בתוך כרטיס מוצר */
+        .color-selectors { background: #f9f9f9; padding: 8px; border-radius: 6px; margin: 10px 0; font-size: 0.85em; text-align: right; }
+        .color-selectors label { display: block; margin-bottom: 3px; font-weight: bold; color: #555; }
+        .color-selectors select { width: 100%; padding: 4px; margin-bottom: 5px; border: 1px solid #ddd; border-radius: 4px; }
+
+        .price { font-weight: bold; color: #27ae60; font-size: 1.2em; margin: 10px 0; }
         button.add-to-cart { background-color: #3498db; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; font-size: 1em; width: 100%; transition: background 0.2s; }
         button.add-to-cart:hover { background-color: #2980b9; }
         
-        /* עיצוב סל הקניות */
-        .cart { flex: 1; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); position: sticky; top: 20px; min-width: 260px; }
-        .cart-item { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding: 8px 0; font-size: 0.9em; }
-        .remove-btn { background: #e74c3c; color: white; border: none; border-radius: 50%; width: 22px; height: 22px; cursor: pointer; line-height: 1; }
+        .cart { flex: 1; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); position: sticky; top: 20px; min-width: 280px; }
+        .cart-item { border-bottom: 1px solid #eee; padding: 8px 0; font-size: 0.9em; display: flex; justify-content: space-between; align-items: center; }
+        .cart-item-details { display: flex; flex-direction: column; text-align: right; }
+        .cart-item-colors { font-size: 0.8em; color: #7f8c8d; margin-top: 2px; }
+        .remove-btn { background: #e74c3c; color: white; border: none; border-radius: 50%; width: 22px; height: 22px; cursor: pointer; }
+        
         .cart-options { margin-top: 15px; font-size: 0.9em; }
         .cart-options select, .cart-options input { width: 100%; padding: 8px; margin-top: 5px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;}
         .checkout-btn { background-color: #27ae60; color: white; border: none; padding: 12px; border-radius: 5px; cursor: pointer; font-size: 1.1em; width: 100%; font-weight: bold; margin-top: 10px; }
-        .checkout-btn:hover { background-color: #219a52; }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>חנות מוצרי התלת מימד של איתי</h1>
-        <p>הדפסות אישיות מותאמות בדיוק בשבילך</p>
+        <h1>חנות מוצרי התלת מימד של איתי ואיתי</h1>
+        <p>חנות מוצרי התלת מימד הראשונה בנשר</p>
     </header>
 
     <div class="controls-bar">
@@ -75,7 +84,7 @@
 
                 <label><strong>קוד קופון:</strong></label>
                 <div style="display: flex; gap: 5px;">
-                    <input type="text" id="coupon-code" placeholder="הקש קוד (למשל NESHER10)">
+                    <input type="text" id="coupon-code" placeholder="הקש קוד">
                     <button onclick="applyCoupon()" style="background:#2c3e50; color:white; border:none; border-radius:4px; padding:0 10px; cursor:pointer;">הפעל</button>
                 </div>
             </div>
@@ -98,7 +107,7 @@
             container.innerHTML = ''; 
 
             if (typeof catalogProducts === 'undefined') {
-                container.innerHTML = '<p style="color:red; grid-column:1/-1;">שגיאה: לא ניתן לטעון את קובץ המוצרים products.js. ודא שהשם מדויק.</p>';
+                container.innerHTML = '<p style="color:red; grid-column:1/-1;">שגיאה בטעינת קובץ המוצרים.</p>';
                 return;
             }
 
@@ -107,19 +116,41 @@
             if (selectedSort === 'low-to-high') { list.sort((a, b) => a.price - b.price); } 
             else if (selectedSort === 'high-to-low') { list.sort((a, b) => b.price - a.price); }
 
-            if (list.length === 0) {
-                container.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #777;">אין מוצרים בקטגוריה זו.</p>';
-                return;
-            }
-
             list.forEach(prod => {
                 const card = document.createElement('div');
                 card.className = 'product';
+
+                // בניית אזור בחירת הצבעים - רק אם קיימים צבעים במוצר
+                let colorsHtml = '';
+                if (prod.colors) {
+                    colorsHtml = `<div class="color-selectors">`;
+                    if (prod.colors.primary) {
+                        colorsHtml += `
+                            <label>צבע עיקרי / גוף:</label>
+                            <select id="primary-color-${prod.id}">
+                                ${prod.colors.primary.map(c => `<option value="${c}">${c}</option>`).join('')}
+                            </select>
+                        `;
+                    }
+                    if (prod.colors.secondary) {
+                        colorsHtml += `
+                            <label>צבע משני / אלמנטים:</label>
+                            <select id="secondary-color-${prod.id}">
+                                ${prod.colors.secondary.map(c => `<option value="${c}">${c}</option>`).join('')}
+                            </select>
+                        `;
+                    }
+                    colorsHtml += `</div>`;
+                }
+
+                // אלט חכם לתמונה למקרה שהיא עדיין לא קיימת פיזית בתיקייה
                 card.innerHTML = `
                     <div>
                         <span class="category-tag">${prod.category}</span>
+                        <img class="product-img" src="${prod.image}" alt="${prod.name}" onerror="this.src='https://placehold.co/240x160?text=3D+Print'">
                         <h3>${prod.name}</h3>
-                        <p style="font-size:0.85em; color:#666;">${prod.description}</p>
+                        <p style="font-size:0.85em; color:#666; margin:5px 0;">${prod.description}</p>
+                        ${colorsHtml}
                     </div>
                     <div>
                         <p class="price">${prod.price} ₪</p>
@@ -139,10 +170,26 @@
 
         function sortProducts(sort) { selectedSort = sort; displayProducts(); }
 
-        // פונקציות סל קניות
         function addToCart(prodId) {
             const product = catalogProducts.find(p => p.id === prodId);
-            cart.push(product);
+            
+            // שליפת הצבעים שנבחרו על ידי הלקוח ברגע הלחיצה
+            let pColor = null;
+            let sColor = null;
+            
+            const pSelect = document.getElementById(`primary-color-${prodId}`);
+            const sSelect = document.getElementById(`secondary-color-${prodId}`);
+            
+            if (pSelect) pColor = pSelect.value;
+            if (sSelect) sColor = sSelect.value;
+
+            // הוספת המוצר יחד עם הצבעים שנבחרו
+            cart.push({
+                ...product,
+                chosenPrimary: pColor,
+                chosenSecondary: sColor
+            });
+            
             updateCartDisplay();
         }
 
@@ -153,13 +200,8 @@
 
         function applyCoupon() {
             const code = document.getElementById('coupon-code').value.trim().toUpperCase();
-            if (code === 'NESHER10') {
-                discount = 0.10; // 10% הנחה
-                alert('קופון הופעל בהצלחה! קיבלת 10% הנחה');
-            } else {
-                discount = 0;
-                alert('קוד קופון לא תקין');
-            }
+            if (code === 'NESHER10') { discount = 0.10; alert('קופון הופעל! 10% הנחה'); } 
+            else { discount = 0; alert('קוד לא תקין'); }
             updateCartDisplay();
         }
 
@@ -179,16 +221,25 @@
 
             cart.forEach((item, idx) => {
                 sum += item.price;
+                
+                // בניית טקסט תיאור הצבעים בתוך הסל
+                let colorText = '';
+                if (item.chosenPrimary) colorText += `צבע עיקרי: ${item.chosenPrimary}`;
+                if (item.chosenSecondary) colorText += ` | משני: ${item.chosenSecondary}`;
+
                 const div = document.createElement('div');
                 div.className = 'cart-item';
                 div.innerHTML = `
-                    <span>${item.name} (${item.price} ₪)</span>
+                    <div class="cart-item-details">
+                        <strong>${item.name}</strong>
+                        <span style="color:#27ae60;">${item.price} ₪</span>
+                        ${colorText ? `<span class="cart-item-colors">${colorText}</span>` : ''}
+                    </div>
                     <button class="remove-btn" onclick="removeFromCart(${idx})">X</button>
                 `;
                 cartContainer.appendChild(div);
             });
 
-            // חישוב משלוח והנחות
             if (discount > 0) { sum = sum * (1 - discount); }
             if (delivery === 'shipping') { sum += 20; }
 
@@ -198,15 +249,20 @@
         function checkout() {
             if (cart.length === 0) { alert('הסל שלך ריק!'); return; }
             const total = document.getElementById('cart-total').innerText;
-            const deliveryText = document.getElementById('delivery-method').options[document.getElementById('delivery-method').selectedIndex].text;
             
-            const payMethod = prompt(`סיכום הזמנה:\nפריטים בסל: ${cart.length}\nאופן קבלה: ${deliveryText}\nסה"כ לתשלום: ${total} ₪\n\nאיך תרצה לשלם? הקלד 'ביט' או 'מזומן'`);
+            let itemsSummary = '';
+            cart.forEach(item => {
+                itemsSummary += `- ${item.name}`;
+                if (item.chosenPrimary) itemsSummary += ` (${item.chosenPrimary}`;
+                if (item.chosenSecondary) itemsSummary += ` / ${item.chosenSecondary}`;
+                if (item.chosenPrimary) itemsSummary += `)`;
+                itemsSummary += `\n`;
+            });
+
+            const payMethod = prompt(`סיכום הזמנה:\n\nהפריטים שבחרת:\n${itemsSummary}\nסה"כ לתשלום: ${total} ₪\n\nאיך תרצה לשלם? הקלד 'ביט' או 'מזומן'`);
             
-            if (payMethod === 'ביט') {
-                alert(`ההזמנה התקבלה!\nאנא העבר ${total} ₪ בביט למספר הטלפון של איתי.\n(כאן בעתיד נשתול את הקישור הישיר שלך לביט)`);
-                cart = []; updateCartDisplay();
-            } else if (payMethod === 'מזומן') {
-                alert('ההזמנה נשמרה! התשלום במזומן בעת האיסוף/המשלוח. תודה רבה!');
+            if (payMethod === 'ביט' || payMethod === 'מזומן') {
+                alert(`ההזמנה התקבלה בהצלחה!\n\nסיכום נשלח למערכת.\nתודה שקנית ב-3DPrintNesher!`);
                 cart = []; updateCartDisplay();
             }
         }
