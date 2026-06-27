@@ -49,7 +49,7 @@ const catalogProducts = [
     "id": "prod_02",
     "name": "קליקר אצבע כפול",
     "category": "קליקרים",
-    "price": 20,
+    "price": 10,
     "description": "גאדג'ט לחיצות ממכר שמתיישב בול על כף היד",
     "image": "images/clicker.jpg",
     "inStock": true,
@@ -66,7 +66,7 @@ const catalogProducts = [
     "id": "prod_03",
     "name": "מחזיק מפתחות עם שם אישי",
     "category": "מחזיקי מפתחות",
-    "price": 25,
+    "price": 10,
     "description": "הדפסה אישית של השם שלך באנגלית או בעברית",
     "image": "images/keychain.jpg",
     "inStock": true,
@@ -89,9 +89,25 @@ const catalogProducts = [
     "id": "prod_04",
     "name": "שלט לוגו למשרד",
     "category": "מוצרים בעיצוב אישי",
-    "price": 80,
+    "price": 25,
     "description": "שלח לנו קובץ או תמונה ונבנה לך מודל תלת מימד ייעודי",
     "image": "images/custom_logo.jpg",
     "inStock": true
+  },
+  {
+    "id": "prod_2875",
+    "name": "הדפסת שם עם אשליה אופטית",
+    "category": "מוצרים בעיצוב אישי",
+    "price": 35,
+    "description": "מוצר מגניב - מצד אחד רואים שם פרטי, מצד שני שם משפחה.",
+    "image": "images/Dual-Axis.jpg",
+    "inStock": true,
+    "colors": {
+      "primary": [
+        "לבן",
+        "ורוד",
+        "שקוף"
+      ]
+    }
   }
 ];
