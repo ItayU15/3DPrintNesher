@@ -30,15 +30,18 @@
         button.add-to-cart { background-color: #3498db; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; font-size: 1em; width: 100%; transition: background 0.2s; }
         button.add-to-cart:hover { background-color: #2980b9; }
         
-        .cart { flex: 1; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); position: sticky; top: 20px; min-width: 280px; }
+        /* סל קניות וטופס לקוח */
+        .cart { flex: 1; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); position: sticky; top: 20px; min-width: 290px; }
         .cart-item { border-bottom: 1px solid #eee; padding: 8px 0; font-size: 0.9em; display: flex; justify-content: space-between; align-items: center; }
         .cart-item-details { display: flex; flex-direction: column; text-align: right; }
         .cart-item-colors { font-size: 0.8em; color: #7f8c8d; margin-top: 2px; }
         .remove-btn { background: #e74c3c; color: white; border: none; border-radius: 50%; width: 22px; height: 22px; cursor: pointer; }
         
-        .cart-options { margin-top: 15px; font-size: 0.9em; }
-        .cart-options select, .cart-options input { width: 100%; padding: 8px; margin-top: 5px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;}
-        .checkout-btn { background-color: #25D366; color: white; border: none; padding: 12px; border-radius: 5px; cursor: pointer; font-size: 1.1em; width: 100%; font-weight: bold; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .cart-options { margin-top: 15px; font-size: 0.88em; }
+        .cart-options label { display: block; margin-top: 8px; color: #2c3e50; }
+        .cart-options select, .cart-options input { width: 100%; padding: 8px; margin-top: 3px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-family: inherit;}
+        
+        .checkout-btn { background-color: #25D366; color: white; border: none; padding: 12px; border-radius: 5px; cursor: pointer; font-size: 1.1em; width: 100%; font-weight: bold; margin-top: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 2px 5px rgba(37,211,102,0.3); }
         .checkout-btn:hover { background-color: #20ba5a; }
     </style>
 </head>
@@ -74,12 +77,27 @@
             <h2>🛒 סל קניות</h2>
             <div id="cart-items"><p style="color: #777;">הסל ריק כרגע</p></div>
             
+            <!-- טופס הזמנה מובנה בסל -->
             <div class="cart-options">
+                <hr style="border: 0; border-top: 1px dashed #ccc; margin: 15px 0;">
+                
+                <label><strong>שם מלא: *</strong></label>
+                <input type="text" id="cust-name" placeholder="הכנס את שמך">
+
+                <label><strong>טלפון נייד: *</strong></label>
+                <input type="tel" id="cust-phone" placeholder="050-0000000">
+
                 <label><strong>שיטת אספקה:</strong></label>
                 <select id="delivery-method" onchange="updateCartDisplay()">
                     <option value="pickup">איסוף עצמי מנשר (חינם)</option>
                     <option value="shipping">משלוח עד הבית (+20 ₪)</option>
                 </select>
+
+                <!-- אזור הכתובת - קופץ אוטומטית רק בבחירת משלוח -->
+                <div id="address-container" style="display: none; background: #fff8e1; padding: 5px; border-radius: 4px; border: 1px solid #ffe082;">
+                    <label style="color: #d35400; margin-top: 2px;"><strong>כתובת מלאה למשלוח: *</strong></label>
+                    <input type="text" id="cust-address" placeholder="עיר, רחוב, מספר בית ודירה">
+                </div>
 
                 <label><strong>אמצעי תשלום מועדף:</strong></label>
                 <select id="payment-method">
@@ -89,13 +107,14 @@
 
                 <label><strong>קוד קופון:</strong></label>
                 <div style="display: flex; gap: 5px;">
-                    <input type="text" id="coupon-code" placeholder="הקש קוד">
-                    <button onclick="applyCoupon()" style="background:#2c3e50; color:white; border:none; border-radius:4px; padding:0 10px; cursor:pointer;">הפעל</button>
+                    <input type="text" id="coupon-code" placeholder="הקש קוד" style="margin-top:0;">
+                    <button onclick="applyCoupon()" style="background:#2c3e50; color:white; border:none; border-radius:4px; padding:0 12px; cursor:pointer;">הפעל</button>
                 </div>
             </div>
 
-            <hr>
+            <hr style="margin-top: 15px;">
             <p style="font-size: 1.2em; margin: 10px 0;"><strong>סה"כ לתשלום: <span id="cart-total">0</span> ₪</strong></p>
+            
             <button class="checkout-btn" onclick="sendOrderToWhatsapp()">
                 <span>שליחת הזמנה ב-WhatsApp</span>
             </button>
@@ -104,10 +123,7 @@
 
     <script src="products.js"></script>
     <script>
-        // =========================================================
-        // איתי! בשורה מתחת יש לשנות את המספר למספר האמיתי שלך
-        // (בלי 0 בהתחלה, תמיד מתחיל ב-972)
-        // =========================================================
+        // המספר המדויק שלך כבר מוטמע בפנים!
         const MY_PHONE_NUMBER = "972535559309"; 
 
 
@@ -159,7 +175,7 @@
                 card.innerHTML = `
                     <div>
                         <span class="category-tag">${prod.category}</span>
-                        <img class="product-img" src="${prod.image}" alt="${prod.name}" onerror="this.src='https://placehold.co/240x160?text=3D+Print'">
+                        <img class="product-img" src="${prod.image}" alt="${prod.name}" onerror="this.src='https://placehold.co/240x240?text=3D+Print'">
                         <h3>${prod.name}</h3>
                         <p style="font-size:0.85em; color:#666; margin:5px 0;">${prod.description}</p>
                         ${colorsHtml}
@@ -207,6 +223,13 @@
             const cartContainer = document.getElementById('cart-items');
             const totalSpan = document.getElementById('cart-total');
             const delivery = document.getElementById('delivery-method').value;
+            const addressDiv = document.getElementById('address-container');
+
+            if (delivery === 'shipping') {
+                addressDiv.style.display = 'block';
+            } else {
+                addressDiv.style.display = 'none';
+            }
 
             if (cart.length === 0) {
                 cartContainer.innerHTML = '<p style="color: #777;">הסל ריק כרגע</p>';
@@ -241,19 +264,38 @@
             totalSpan.innerText = Math.round(sum);
         }
 
-        // מחולל הודעת הווטסאפ
         function sendOrderToWhatsapp() {
             if (cart.length === 0) { alert('הסל שלך ריק!'); return; }
 
-            const total = document.getElementById('cart-total').innerText;
+            const name = document.getElementById('cust-name').value.trim();
+            const phone = document.getElementById('cust-phone').value.trim();
             const deliverySelect = document.getElementById('delivery-method');
+            const deliveryVal = deliverySelect.value;
             const deliveryText = deliverySelect.options[deliverySelect.selectedIndex].text;
+            const address = document.getElementById('cust-address').value.trim();
             
             const paymentSelect = document.getElementById('payment-method');
             const paymentText = paymentSelect.options[paymentSelect.selectedIndex].text;
 
-            let text = "היי איתי! אשמח לבצע הזמנה מ- *3DPrintNesher*:\n\n";
-            text += "*📦 פריטים בהזמנה:*\n";
+            if (!name) { alert('אנא הזן שם מלא בטופס ההזמנה'); return; }
+            if (!phone) { alert('אנא הזן מספר טלפון ליצירת קשר'); return; }
+            if (deliveryVal === 'shipping' && !address) {
+                alert('בחרת במשלוח עד הבית - אנא הזן כתובת למשלוח');
+                return;
+            }
+
+            const total = document.getElementById('cart-total').innerText;
+
+            let text = "היי איתי! הזמנה חדשה מהאתר *3DPrintNesher* 🚀\n\n";
+            
+            text += "*👤 פרטי המזמין:*\n";
+            text += `▪️ שם: ${name}\n`;
+            text += `▪️ טלפון: ${phone}\n`;
+            if (deliveryVal === 'shipping') {
+                text += `▪️ כתובת למשלוח: ${address}\n`;
+            }
+            
+            text += `\n*📦 פריטים בהזמנה:*\n`;
 
             cart.forEach(item => {
                 text += `▪️ ${item.name} (${item.price} ₪)`;
