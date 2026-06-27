@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>חנות התלת מימד של איתי ואיתי</title>
     
-    <!-- משימה 2: תגיות תצוגה מוגדלת לשיתוף ב-WhatsApp -->
     <meta property="og:title" content="חנות התלת מימד של איתי ואיתי">
     <meta property="og:description" content="חנות מוצרי התלת מימד המובילה בנשר. הדפסות מותאמות אישית ישירות מהיצרן!">
     <meta property="og:image" content="https://itayu15.github.io/3DPrintNesher/images/logo.png">
@@ -45,6 +44,9 @@
         
         /* עיצוב הסל למחשב רגיל */
         .cart { flex: 1; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); position: sticky; top: 20px; min-width: 290px; }
+        .cart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .close-drawer-btn { display: none; }
+        
         .cart-item { border-bottom: 1px solid #eee; padding: 8px 0; font-size: 0.9em; display: flex; justify-content: space-between; align-items: center; }
         .cart-item-details { display: flex; flex-direction: column; text-align: right; }
         .cart-item-colors { font-size: 0.8em; color: #7f8c8d; margin-top: 2px; }
@@ -56,42 +58,70 @@
         
         .checkout-btn { background-color: #25D366; color: white; border: none; padding: 12px; border-radius: 5px; cursor: pointer; font-size: 1.1em; width: 100%; font-weight: bold; margin-top: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; }
 
-        /* משימה 3: עיצוב הודעת הטוסט הצפה */
         #toast { visibility: hidden; min-width: 250px; background-color: #1e293b; color: #4ade80; text-align: center; border-radius: 50px; padding: 12px 24px; position: fixed; z-index: 3000; left: 50%; bottom: 30px; transform: translateX(-50%); font-size: 0.95em; font-weight: bold; box-shadow: 0 10px 25px rgba(0,0,0,0.25); opacity: 0; transition: opacity 0.3s, bottom 0.3s; border: 1px solid #334155; }
         #toast.show { visibility: visible; opacity: 1; bottom: 40px; }
 
-        /* אלמנטים מיוחדים למובייל בלבד (מוסתרים במחשב) */
-        .close-drawer-btn { display: none; }
+        /* אלמנטים מיוחדים למובייל בלבד */
         #mobile-floater { display: none; }
         #drawer-backdrop { display: none; }
 
         /* =======================================================
-           משימה 1: התאמת סמארטפונים ומגירת קניות נשלפת
+           תיקון הבאג: סלולר ומגירת קניות מודרנית
            ======================================================= */
         @media (max-width: 768px) {
-            body { padding-bottom: 90px; } /* מונע מהכפתור הצף להסתיר מוצר אחרון */
+            body { padding-bottom: 90px; } 
             .container { flex-direction: column; }
             
-            #drawer-backdrop { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:1998; opacity:0; transition: opacity 0.3s; }
-            #drawer-backdrop.active { display: block; opacity: 1; }
+            #drawer-backdrop { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:1998; opacity:0; transition: opacity 0.4s; display: none; }
+            #drawer-backdrop.active { opacity: 1; }
 
             .cart {
                 position: fixed;
-                bottom: -100%;
+                bottom: 0;
+                transform: translateY(110%); /* מסתיר את הסל לגמרי מחוץ למסך */
                 left: 0;
                 width: 100%;
-                max-height: 85vh;
+                max-height: 75vh; /* תופס רק 75% מהמסך ולא את כולו */
                 overflow-y: auto;
                 z-index: 1999;
-                border-radius: 20px 20px 0 0;
+                border-radius: 24px 24px 0 0;
                 box-shadow: 0 -10px 30px rgba(0,0,0,0.3);
-                transition: bottom 0.35s cubic-bezier(0.1, 0.9, 0.2, 1);
+                transition: transform 0.4s cubic-bezier(0.2, 1, 0.3, 1);
                 margin: 0;
                 box-sizing: border-box;
+                padding: 0 20px 20px 20px;
             }
-            .cart.drawer-open { bottom: 0; }
+            
+            .cart.drawer-open { 
+                transform: translateY(0); /* מקפיץ את הסל למעלה */
+            }
+            
+            /* הכותרת תמיד נדבקת למעלה כדי שהאיקס לא יברח */
+            .cart-header {
+                position: sticky;
+                top: 0;
+                background: white;
+                z-index: 2000;
+                padding: 20px 0 15px 0;
+                margin-bottom: 10px;
+                border-bottom: 1px solid #eee;
+            }
 
-            .close-drawer-btn { display: block; background: #eee; border: none; font-size: 1.2em; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; color: #333; font-weight: bold;}
+            /* כפתור איקס גדול ונוח */
+            .close-drawer-btn { 
+                display: flex; 
+                align-items: center; 
+                justify-content: center;
+                background: #f1f5f9; 
+                border: none; 
+                font-size: 1.2em; 
+                width: 42px; 
+                height: 42px; 
+                border-radius: 50%; 
+                cursor: pointer; 
+                color: #334155; 
+                font-weight: bold; 
+            }
             
             #mobile-floater {
                 display: flex;
@@ -111,7 +141,7 @@
                 font-size: 1.05em;
                 cursor: pointer;
             }
-            #toast.show { bottom: 85px; } /* עולה קצת יותר גבוה במובייל שלא יתנגש בצף */
+            #toast.show { bottom: 95px; } 
         }
     </style>
 </head>
@@ -150,16 +180,16 @@
     <div class="container" id="main-store-wrapper">
         <main class="catalog" id="catalog-container"></main>
 
-        <!-- מסך רקע כהה למובייל -->
         <div id="drawer-backdrop" onclick="toggleCartDrawer()"></div>
 
         <aside class="cart" id="cart-aside">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
+            <!-- אזור הכותרת הדביק - מכיל את המילה "סל קניות" והאיקס -->
+            <div class="cart-header">
                 <h2 style="margin:0;">🛒 סל קניות</h2>
-                <button class="close-drawer-btn" onclick="toggleCartDrawer()">✕</button>
+                <button type="button" class="close-drawer-btn" onclick="toggleCartDrawer()">✕</button>
             </div>
             
-            <div id="cart-items" style="margin-top:15px;"><p style="color: #777;">הסל ריק כרגע</p></div>
+            <div id="cart-items"><p style="color: #777;">הסל ריק כרגע</p></div>
             
             <div class="cart-options">
                 <hr style="border: 0; border-top: 1px dashed #ccc; margin: 15px 0;">
@@ -190,26 +220,24 @@
                 <label><strong>קוד קופון:</strong></label>
                 <div style="display: flex; gap: 5px;">
                     <input type="text" id="coupon-code" placeholder="הקש קוד" style="margin-top:0;">
-                    <button onclick="applyCoupon()" style="background:#2c3e50; color:white; border:none; border-radius:4px; padding:0 12px; cursor:pointer;">הפעל</button>
+                    <button type="button" onclick="applyCoupon()" style="background:#2c3e50; color:white; border:none; border-radius:4px; padding:0 12px; cursor:pointer;">הפעל</button>
                 </div>
             </div>
 
             <hr style="margin-top: 15px;">
             <p style="font-size: 1.2em; margin: 10px 0;"><strong>סה"כ לתשלום: <span id="cart-total">0</span> ₪</strong></p>
             
-            <button class="checkout-btn" onclick="sendOrderToWhatsapp()">
+            <button type="button" class="checkout-btn" onclick="sendOrderToWhatsapp()">
                 <span>שליחת הזמנה ב-WhatsApp</span>
             </button>
         </aside>
     </div>
 
-    <!-- הגלולה הצפה בתחתית המסך במובייל -->
     <div id="mobile-floater" onclick="toggleCartDrawer()">
         <span>🛒 לסיכום ההזמנה (<span id="floater-count">0</span>)</span>
         <span id="floater-price">0 ₪</span>
     </div>
 
-    <!-- אזור פליטת הודעות הטוסט -->
     <div id="toast"></div>
 
     <script src="products.js"></script>
@@ -221,7 +249,6 @@
         let cart = [];
         let discount = 0;
 
-        // מנוע הודעות טוסט (משימה 3)
         function triggerToast(msg) {
             const toast = document.getElementById("toast");
             toast.innerText = msg;
@@ -229,7 +256,7 @@
             setTimeout(() => { toast.classList.remove("show"); }, 2400);
         }
 
-        // פתיחה וסגירת עגלת מובייל (משימה 1)
+        // פונקציית הפתיחה/סגירה מעודכנת להתאמה לאנימציה החדשה
         function toggleCartDrawer() {
             const drawer = document.getElementById('cart-aside');
             const backdrop = document.getElementById('drawer-backdrop');
@@ -237,11 +264,13 @@
             if (drawer.classList.contains('drawer-open')) {
                 drawer.classList.remove('drawer-open');
                 backdrop.classList.remove('active');
-                setTimeout(() => backdrop.style.display = 'none', 300);
+                setTimeout(() => backdrop.style.display = 'none', 400); // 0.4s כדי לסנכרן עם האנימציה
             } else {
                 backdrop.style.display = 'block';
-                setTimeout(() => backdrop.classList.add('active'), 10);
-                drawer.classList.add('drawer-open');
+                setTimeout(() => {
+                    backdrop.classList.add('active');
+                    drawer.classList.add('drawer-open');
+                }, 10);
             }
         }
 
@@ -312,9 +341,9 @@
                     colorsHtml += `</div>`;
                 }
 
-                let actionButtonHtml = `<button class="add-to-cart" onclick="addToCart('${prod.id}')">הוסף לסל</button>`;
+                let actionButtonHtml = `<button type="button" class="add-to-cart" onclick="addToCart('${prod.id}')">הוסף לסל</button>`;
                 if (prod.inStock === false) {
-                    actionButtonHtml = `<button class="add-to-cart" style="background-color:#a0aec0; cursor:not-allowed;" disabled>אזל מהמלאי זמנית</button>`;
+                    actionButtonHtml = `<button type="button" class="add-to-cart" style="background-color:#a0aec0; cursor:not-allowed;" disabled>אזל מהמלאי זמנית</button>`;
                 }
 
                 card.innerHTML = `
@@ -354,7 +383,7 @@
             cart.push({ ...product, chosenPrimary: pColor, chosenSecondary: sColor });
             
             updateCartDisplay();
-            triggerToast(`✔ "${product.name}" נוסף לעגלה`); // הטוסט במקום אלרט
+            triggerToast(`✔ "${product.name}" נוסף לעגלה`);
         }
 
         function removeFromCart(index) { 
@@ -390,14 +419,12 @@
             if (delivery === 'shipping') addressDiv.style.display = 'block';
             else addressDiv.style.display = 'none';
 
-            // חישוב המלאי לעדכון הכפתור הצף במובייל
             let sum = 0;
             cart.forEach(item => { sum += item.price; });
             if (discount > 0) sum = sum * (1 - discount);
             if (delivery === 'shipping' && cart.length > 0) sum += 20;
             const finalRoundedSum = Math.round(sum);
 
-            // עדכון הגלולה הצפה במובייל
             document.getElementById('floater-count').innerText = cart.length;
             document.getElementById('floater-price').innerText = finalRoundedSum + ' ₪';
 
@@ -422,7 +449,7 @@
                         <span style="color:#27ae60;">${item.price} ₪</span>
                         ${colorText ? `<span class="cart-item-colors">${colorText}</span>` : ''}
                     </div>
-                    <button class="remove-btn" onclick="removeFromCart(${idx})">X</button>
+                    <button type="button" class="remove-btn" onclick="removeFromCart(${idx})">X</button>
                 `;
                 cartContainer.appendChild(div);
             });
@@ -470,7 +497,7 @@
 
             window.open(`https://wa.me/${MY_PHONE_NUMBER}?text=${encodeURIComponent(text)}`, '_blank');
             
-            if (window.innerWidth <= 768) toggleCartDrawer(); // סוגר מגירה במובייל אחרי שליחה
+            if (window.innerWidth <= 768) toggleCartDrawer(); 
         }
 
         window.onload = initStore;
