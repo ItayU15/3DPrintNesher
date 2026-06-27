@@ -9,7 +9,7 @@ const catalogProducts = [
     inStock: true,
     colors: {
       primary: ["לבן", "אפור", "ורוד", "שקוף"],
-      secondary: ["זהב", "כסף", "שחור", "לבן"] // צבע משני לדאמפלינג
+      secondary: ["לבן", "אפור", "ורוד", "שקוף"] // צבע משני לדאמפלינג
     }
   },
   {
@@ -21,7 +21,7 @@ const catalogProducts = [
     image: "images/clicker.jpg",
     inStock: true,
     colors: {
-      primary: ["כחול", "אדום", "כתום זוהר", "ירוק"]
+      primary: ["לבן", "אפור", "ורוד", "שקוף"]
       // למוצר זה יש רק צבע אחד, אין צבע משני
     }
   },
@@ -34,8 +34,8 @@ const catalogProducts = [
     image: "images/keychain.jpg",
     inStock: true,
     colors: {
-      primary: ["שחור", "לבן", "כחול כהה"], // צבע הרקע
-      secondary: ["זהב", "לבן", "אדום"] // צבע האותיות הבולטות
+      primary: ["לבן", "אפור", "ורוד", "שקוף"], // צבע הרקע
+      secondary: ["לבן", "אפור", "ורוד", "שקוף"] // צבע האותיות הבולטות
     }
   },
   {
