@@ -21,14 +21,17 @@
         .row { display: flex; gap: 8px; align-items: center; }
         .btn { background: #3182ce; color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; transition: all 0.2s; }
         .btn:hover { background: #2b6cb0; }
-        .btn-green { background: #38a169; }
+        .btn-green { background: #38a169; color: white; }
         .btn-green:hover { background: #2f855a; }
         .btn-red { background: #e53e3e; padding: 5px 10px; font-size: 0.8em; color: white; border:none; border-radius: 4px; cursor: pointer;}
         
-        .prod-item { background: #f8fafc; border: 1px solid #cbd5e1; padding: 12px; border-radius: 6px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap:10px;}
+        .prod-item { background: white; border: 1px solid #cbd5e1; padding: 15px; border-radius: 8px; margin-bottom: 15px; display: flex; flex-direction: column; align-items: stretch; gap: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .color-manager-box { display: flex; gap: 20px; background: #f8fafc; padding: 10px; border-radius: 6px; border: 1px dashed #cbd5e1; flex-wrap: wrap; margin-top: 5px; }
+        .color-group { font-size: 0.85em; color: #4a5568; }
+        .color-group strong { color: #1a202c; display: inline-block; margin-left: 5px; }
         
         .generator-zone { background: #1e293b; color: white; padding: 25px; border-radius: 8px; text-align: center; }
-        .generator-zone textarea { width: 100%; height: 220px; text-align: left; direction: ltr; font-family: monospace; background: #0f172a; color: #38bdf8; border: 2px solid #334155; border-radius: 6px; padding: 10px; box-sizing: border-box; margin: 15px 0;}
+        .generator-zone textarea { width: 100%; height: 220px; text-align: left; direction: ltr; font-family: monospace; background: #0f172a; color: #38bdf8; border: 2px solid #334155; border-radius: 6px; padding: 10px; box-sizing: border-box; margin: 15px 0; transition: all 0.3s; }
     </style>
 </head>
 <body>
@@ -68,7 +71,7 @@
         <div class="card" style="border-top-color: #805ad5;">
             <h2>🧮 תמחור מהיר למודלים מיוחדים</h2>
             <div class="row">
-                <div><label>משקל בסלייસર (גרם):</label><input type="number" id="calc-g" value="45" oninput="calcPrint()"></div>
+                <div><label>משקל בסלייסר (גרם):</label><input type="number" id="calc-g" value="45" oninput="calcPrint()"></div>
                 <div><label>זמן הדפסה (שעות):</label><input type="number" id="calc-h" value="2.5" oninput="calcPrint()"></div>
             </div>
             <div id="calc-res" style="margin-top:15px; background:#faf5ff; padding:10px; border-radius:4px; font-size:0.92em; border:1px solid #e9d8fd;"></div>
@@ -92,13 +95,29 @@
             </div>
             <label>תיאור קצר:</label><input type="text" id="wiz-desc" placeholder="משפט שמסביר על המוצר">
             <label>שם קובץ תמונה (בתיקיית images):</label><input type="text" id="wiz-img" placeholder="stand.jpg">
-            <label>צבעים לבחירה (הפרד בפסיק):</label><input type="text" id="wiz-pcolors" placeholder="לבן, שחור, שקוף (השאר ריק אם אין)">
+            
+            <label style="margin-top:10px; color:#2b6cb0;">🎨 בחירת צבעים עיקריים:</label>
+            <div style="background:#f8fafc; padding:6px; border-radius:4px;">
+                <label style="display:inline-block; margin-left:10px; font-weight:normal;"><input type="checkbox" name="wiz-p-color" value="לבן"> לבן</label>
+                <label style="display:inline-block; margin-left:10px; font-weight:normal;"><input type="checkbox" name="wiz-p-color" value="אפור"> אפור</label>
+                <label style="display:inline-block; margin-left:10px; font-weight:normal;"><input type="checkbox" name="wiz-p-color" value="ורוד"> ורוד</label>
+                <label style="display:inline-block; margin-left:10px; font-weight:normal;"><input type="checkbox" name="wiz-p-color" value="שקוף"> שקוף</label>
+            </div>
+
+            <label style="margin-top:5px; color:#2b6cb0;">🎨 בחירת צבעים משניים (אופציונלי):</label>
+            <div style="background:#f8fafc; padding:6px; border-radius:4px;">
+                <label style="display:inline-block; margin-left:10px; font-weight:normal;"><input type="checkbox" name="wiz-s-color" value="לבן"> לבן</label>
+                <label style="display:inline-block; margin-left:10px; font-weight:normal;"><input type="checkbox" name="wiz-s-color" value="אפור"> אפור</label>
+                <label style="display:inline-block; margin-left:10px; font-weight:normal;"><input type="checkbox" name="wiz-s-color" value="ורוד"> ורוד</label>
+                <label style="display:inline-block; margin-left:10px; font-weight:normal;"><input type="checkbox" name="wiz-s-color" value="שקוף"> שקוף</label>
+            </div>
+
             <button class="btn btn-green" style="width:100%; margin-top:15px;" onclick="createProductFromWizard()">צרף לקטלוג למטה ↓</button>
         </div>
     </div>
 
     <div class="card" style="margin-bottom: 30px;">
-        <h2>📦 ניהול המלאי הקיים (עדכן קטגוריה, מחיר וזמינות)</h2>
+        <h2>📦 ניהול המלאי הקיים (עדכן קטגוריה, מחיר, מלאי וצבעים מרובים)</h2>
         <div id="catalog-editor-list"></div>
     </div>
 
@@ -122,6 +141,7 @@
     <script src="products.js"></script>
     <script>
         const CATEGORIES = ["קליקרים", "מחזיקי מפתחות", "חלקים נעים", "מיוחדים", "מוצרים בעיצוב אישי"];
+        const FILE_COLORS = ["לבן", "אפור", "ורוד", "שקוף"];
         let currSettings, currProducts;
 
         function initAdmin() {
@@ -185,27 +205,45 @@
                     `<option value="${cat}" ${p.category === cat ? 'selected' : ''}>${cat}</option>`
                 ).join('');
 
+                // הפקת מערך הציקבוקסים לבחירת צבעים עיקריים
+                let primaryCheckboxes = FILE_COLORS.map(color => {
+                    const hasColor = p.colors && p.colors.primary && p.colors.primary.includes(color);
+                    return `<label style="margin-left:10px; font-weight:normal; cursor:pointer;"><input type="checkbox" ${hasColor ? 'checked' : ''} onchange="updateProductColor('${p.id}', 'primary', '${color}', this.checked)"> ${color}</label>`;
+                }).join('');
+
+                // הפקת מערך הציקבוקסים לבחירת צבעים משניים
+                let secondaryCheckboxes = FILE_COLORS.map(color => {
+                    const hasColor = p.colors && p.colors.secondary && p.colors.secondary.includes(color);
+                    return `<label style="margin-left:10px; font-weight:normal; cursor:pointer;"><input type="checkbox" ${hasColor ? 'checked' : ''} onchange="updateProductColor('${p.id}', 'secondary', '${color}', this.checked)"> ${color}</label>`;
+                }).join('');
+
                 wrap.innerHTML += `
                     <div class="prod-item">
-                        <div style="flex: 1; min-width: 140px;">
-                            <strong style="font-size:1.05em;">${p.name}</strong>
+                        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px;">
+                            <div><strong style="font-size:1.05em; color:#1a365d;">${p.name}</strong></div>
+                            <div class="row" style="flex-wrap: wrap;">
+                                <label style="margin:0; font-weight:normal;">קטגוריה:
+                                    <select style="width: auto; padding:4px;" onchange="updateProductField('${p.id}', 'category', this.value)">
+                                        ${catOptions}
+                                    </select>
+                                </label>
+                                
+                                <label style="margin:0; font-weight:normal;">מחיר: 
+                                    <input type="number" value="${p.price}" style="width:65px; padding:4px;" oninput="updateProductField('${p.id}', 'price', Number(this.value))"> ₪
+                                </label>
+                                
+                                <label style="margin:0; cursor:pointer; font-weight:normal;">
+                                    <input type="checkbox" ${p.inStock ? 'checked':''} onchange="updateProductField('${p.id}', 'inStock', this.checked)"> במלאי
+                                </label>
+                                
+                                <button class="btn-red" onclick="deleteProductById('${p.id}')">מחק</button>
+                            </div>
                         </div>
-                        <div class="row" style="flex-wrap: wrap;">
-                            <label style="margin:0;">קטגוריה:
-                                <select style="width: auto; padding:4px;" onchange="updateProductField('${p.id}', 'category', this.value)">
-                                    ${catOptions}
-                                </select>
-                            </label>
-                            
-                            <label style="margin:0;">מחיר: 
-                                <input type="number" value="${p.price}" style="width:65px; padding:4px;" oninput="updateProductField('${p.id}', 'price', Number(this.value))"> ₪
-                            </label>
-                            
-                            <label style="margin:0; cursor:pointer;">
-                                <input type="checkbox" ${p.inStock ? 'checked':''} onchange="updateProductField('${p.id}', 'inStock', this.checked)"> במלאי
-                            </label>
-                            
-                            <button class="btn-red" onclick="deleteProductById('${p.id}')">מחק</button>
+                        
+                        <div class="color-manager-box">
+                            <div class="color-group"><strong>צבע עיקרי/גוף:</strong> ${primaryCheckboxes}</div>
+                            <div style="border-left: 1px solid #cbd5e1; margin: 0 5px;"></div>
+                            <div class="color-group"><strong>צבע משני/אלמנטים:</strong> ${secondaryCheckboxes}</div>
                         </div>
                     </div>`;
             });
@@ -214,6 +252,23 @@
         function updateProductField(prodId, field, value) {
             const prod = currProducts.find(p => p.id === prodId);
             if (prod) prod[field] = value;
+        }
+
+        function updateProductColor(prodId, type, color, isChecked) {
+            const prod = currProducts.find(p => p.id === prodId);
+            if (!prod) return;
+            if (!prod.colors) prod.colors = {};
+            if (!prod.colors[type]) prod.colors[type] = [];
+
+            if (isChecked) {
+                if (!prod.colors[type].includes(color)) prod.colors[type].push(color);
+            } else {
+                prod.colors[type] = prod.colors[type].filter(c => c !== color);
+            }
+
+            // ניקוי שדות ריקים כדי לשמור על קוד נקי ב-JSON
+            if (prod.colors[type].length === 0) delete prod.colors[type];
+            if (Object.keys(prod.colors).length === 0) delete prod.colors;
         }
 
         function deleteProductById(prodId) {
@@ -236,15 +291,27 @@
                 inStock: true
             };
 
-            const colorsStr = document.getElementById('wiz-pcolors').value;
-            const colors = colorsStr ? colorsStr.split(',').map(s=>s.trim()).filter(s=>s) : [];
-            if(colors.length > 0) newObj.colors = { primary: colors };
+            // איסוף צבעים שנבחרו באשף החדש
+            const pColors = Array.from(document.querySelectorAll('input[name="wiz-p-color"]:checked')).map(el => el.value);
+            const sColors = Array.from(document.querySelectorAll('input[name="wiz-s-color"]:checked')).map(el => el.value);
+
+            if (pColors.length > 0 || sColors.length > 0) {
+                newObj.colors = {};
+                if (pColors.length > 0) newObj.colors.primary = pColors;
+                if (sColors.length > 0) newObj.colors.secondary = sColors;
+            }
 
             currProducts.push(newObj);
             renderCatalogEditor();
             
-            ['wiz-name', 'wiz-price', 'wiz-desc', 'wiz-img', 'wiz-pcolors'].forEach(id => document.getElementById(id).value = '');
-            alert(`"${name}" נוסף בהצלחה לרשימת הקטלוג למטה!`);
+            // איפוס שדות
+            document.getElementById('wiz-name').value = '';
+            document.getElementById('wiz-price').value = '';
+            document.getElementById('wiz-desc').value = '';
+            document.getElementById('wiz-img').value = '';
+            document.querySelectorAll('input[name="wiz-p-color"], input[name="wiz-s-color"]').forEach(el => el.checked = false);
+            
+            alert(`"${name}" נוסף בהצלחה לקטלוג! השתמש בכפתור למטה כדי לארוז ולשמור את הקוד.`);
         }
 
         function calcPrint() {
@@ -253,7 +320,7 @@
             const cost = (g * 0.09) + (h * 1.5); 
             const sell = cost * 3.5;
             document.getElementById('calc-res').innerHTML = `
-                עלות ייצור עצמית: <b>${cost.toFixed(1)} ₪</b> | מחיר מומלץ ללקוח: <b style="color:#16a34a; font-size:1.1em;">${Math.round(sell)} ₪</b>
+                עלות ייצור עצמית: <b>${cost.toFixed(1)} ₪</b> | מחיר מכירה מומלץ (רווח בריא): <b style="color:#16a34a; font-size:1.1em;">${Math.round(sell)} ₪</b>
             `;
         }
 
@@ -262,8 +329,8 @@
             const copyZone = document.getElementById('copy-section');
             const textArea = document.getElementById('export-code-area');
 
-            // אפקט לחיצה פיזי
-            btn.innerText = "⏳ אורז נתונים...";
+            // אפקט פידבק ויזואלי מהיר ללחיצה
+            btn.innerText = "⏳ מעבד ואורז נתונים...";
             btn.style.backgroundColor = "#eab308";
 
             setTimeout(() => {
@@ -277,21 +344,21 @@
                 textArea.value = output;
                 copyZone.style.display = 'block';
 
-                btn.innerText = "✅ הקוד עודכן בהצלחה למטה! (לחץ שוב אם שינית שוב)";
+                btn.innerText = "💥 הקוד עודכן ומחכה לך למטה!";
                 btn.style.backgroundColor = "#16a34a";
 
-                // פלאש ירוק על תיבת הטקסט להסבת תשומת לב
+                // אפקט פלאש ירוק על תיבת הטקסט לאישור עבודה
                 textArea.style.outline = "4px solid #4ade80";
-                setTimeout(() => { textArea.style.outline = "none"; }, 700);
+                setTimeout(() => { textArea.style.outline = "none"; }, 500);
 
-            }, 250);
+            }, 200);
         }
 
         function copyCode() {
             const area = document.getElementById('export-code-area');
             area.select();
             navigator.clipboard.writeText(area.value);
-            alert("הקוד הועתק! פתח בגיטהאב את products.js והדבק.");
+            alert("הקוד הועתק! עכשיו פתח בגיטהאב את products.js והדבק.");
         }
 
         window.onload = initAdmin;
