@@ -25,7 +25,6 @@
         
         .prod-item { background: #f7fafc; border: 1px solid #e2e8f0; padding: 10px; border-radius: 6px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap:10px;}
         
-        /* אזור הפקת הקוד למטה */
         .generator-zone { background: #2d3748; color: white; padding: 25px; border-radius: 8px; text-align: center; }
         .generator-zone textarea { height: 180px; text-align: left; direction: ltr; font-family: monospace; background: #1a202c; color: #68d391; border: none; margin: 15px 0;}
     </style>
@@ -41,7 +40,6 @@
     </header>
 
     <div class="grid">
-        <!-- כרטיס 1: הגדרות כלליות -->
         <div class="card">
             <h2>📢 הודעות ומצב חופשה</h2>
             <label><input type="checkbox" id="ann-active"> הפעל פס קופץ בראש האתר</label>
@@ -53,7 +51,6 @@
             <input type="text" id="vac-msg" placeholder="הודעה שתופיע ללקוחות...">
         </div>
 
-        <!-- כרטיס 2: קופונים -->
         <div class="card">
             <h2>🏷️ ניהול קופונים</h2>
             <div id="coupons-list"></div>
@@ -64,18 +61,15 @@
             </div>
         </div>
 
-        <!-- כרטיס 3: מחשבון הדפסות פנימי -->
         <div class="card" style="border-top-color: #805ad5;">
             <h2>🧮 מחשבון תמחור סודי (אישי שלך)</h2>
             <div class="row">
-                <div><label>משקל מודל (גרם):</label><input type="number" id="calc-g" value="50"></div>
-                <div><label>זמן הדפסה (שעות):</label><input type="number" id="calc-h" value="3"></div>
+                <div><label>משקל מודל (גרם):</label><input type="number" id="calc-g" value="50" oninput="calcPrint()"></div>
+                <div><label>זמן הדפסה (שעות):</label><input type="number" id="calc-h" value="3" oninput="calcPrint()"></div>
             </div>
-            <button class="btn" style="background:#805ad5; width:100%; margin-top:15px;" onclick="calcPrint()">חשב כדאיות</button>
             <div id="calc-res" style="margin-top:15px; background:#faf5ff; padding:10px; border-radius:4px; font-size:0.95em;"></div>
         </div>
 
-        <!-- כרטיס 4: אשף הוספת מוצר חדש -->
         <div class="card">
             <h2>➕ אשף מוצר חדש</h2>
             <label>שם המוצר:</label><input type="text" id="wiz-name" placeholder="למשל: מעמד לאוזניות">
@@ -92,19 +86,17 @@
             <label>שם קובץ תמונה (בתוך תיקיית images):</label><input type="text" id="wiz-img" placeholder="headstand.jpg">
             
             <label>צבעים לבחירה (הפרד בפסיק, למשל: לבן, שחור, כחול):</label>
-            <input type="text" id="wiz-pcolors" placeholder="השאיר ריק למוצר ללא בחירת צבע">
+            <input type="text" id="wiz-pcolors" placeholder="השאר ריק למוצר ללא בחירת צבע">
             
             <button class="btn btn-green" style="width:100%; margin-top:15px;" onclick="createProductFromWizard()">צרף לקטלוג למטה ↓</button>
         </div>
     </div>
 
-    <!-- כרטיס 5: עריכת קטלוג קיים -->
     <div class="card" style="margin-bottom: 30px;">
         <h2>📦 קטלוג המוצרים בפועל (סמן מלאי ועדכן מחירים)</h2>
         <div id="catalog-editor-list"></div>
     </div>
 
-    <!-- אזור ייצור הקוד -->
     <div class="generator-zone">
         <h2>⚡ סיימת לעדכן? לחץ כדי לייצר קוד שמירה</h2>
         <button class="btn btn-green" style="font-size:1.2em; padding:15px 30px;" onclick="generateExport()">1. הפק קוד מעודכן</button>
@@ -129,7 +121,6 @@
             currSettings = JSON.parse(JSON.stringify(storeSettings));
             currProducts = JSON.parse(JSON.stringify(catalogProducts));
 
-            // טעינת נתונים לשדות
             document.getElementById('ann-active').checked = currSettings.announcement.active;
             document.getElementById('ann-text').value = currSettings.announcement.text;
             document.getElementById('vac-active').checked = currSettings.vacationMode.active;
@@ -164,6 +155,7 @@
 
         function removeCoupon(idx) { currSettings.coupons.splice(idx, 1); renderCoupons(); }
 
+        // כאן היה הבאג - תוקן ל-${idx}
         function renderCatalogEditor() {
             const wrap = document.getElementById('catalog-editor-list');
             wrap.innerHTML = '';
@@ -172,8 +164,8 @@
                     <div class="prod-item">
                         <div><strong>${p.name}</strong> <span style="color:#718096; font-size:0.85em;">[${p.category}]</span></div>
                         <div class="row">
-                            <label style="margin:0;">מחיר: <input type="number" value="${p.price}" style="width:70px" onchange="currProducts[idx].price=Number(this.value)"> ₪</label>
-                            <label style="margin:0;"><input type="checkbox" ${p.inStock ? 'checked':''} onchange="currProducts[idx].inStock=this.checked"> במלאי</label>
+                            <label style="margin:0;">מחיר: <input type="number" value="${p.price}" style="width:70px" oninput="currProducts[${idx}].price=Number(this.value)"> ₪</label>
+                            <label style="margin:0;"><input type="checkbox" ${p.inStock ? 'checked':''} onchange="currProducts[${idx}].inStock=this.checked"> במלאי</label>
                             <button class="btn btn-red" onclick="currProducts.splice(${idx},1); renderCatalogEditor();">מחק</button>
                         </div>
                     </div>`;
@@ -202,17 +194,25 @@
 
             currProducts.push(newObj);
             renderCatalogEditor();
-            alert(`"${name}" נוסף לקטלוג בהצלחה! לא לשכוח לייצר קוד למטה.`);
+            
+            // איפוס השדות באשף
+            document.getElementById('wiz-name').value = '';
+            document.getElementById('wiz-price').value = '';
+            document.getElementById('wiz-desc').value = '';
+            document.getElementById('wiz-img').value = '';
+            document.getElementById('wiz-pcolors').value = '';
+            
+            alert(`"${name}" נוסף לקטלוג למטה! לחץ על הפקת קוד כדי לשמור אותו לתמיד.`);
         }
 
         function calcPrint() {
             const g = Number(document.getElementById('calc-g').value) || 0;
             const h = Number(document.getElementById('calc-h').value) || 0;
-            const cost = (g * 0.09) + (h * 1.5); // חומר + חשמל ובלאי
+            const cost = (g * 0.09) + (h * 1.5); 
             const sell = cost * 3.5;
             document.getElementById('calc-res').innerHTML = `
-                עלות ייצור עצמית משוערת: <b>${cost.toFixed(1)} ₪</b><br>
-                מחיר מכירה מומלץ ללקוח: <b style="color:#2f855a; font-size:1.15em;">${Math.round(sell)} ₪</b>
+                עלות ייצור משוערת: <b>${cost.toFixed(1)} ₪</b><br>
+                מחיר מכירה מומלץ (רווח בריא): <b style="color:#2f855a; font-size:1.15em;">${Math.round(sell)} ₪</b>
             `;
         }
 
@@ -233,7 +233,7 @@
             const area = document.getElementById('export-code-area');
             area.select();
             navigator.clipboard.writeText(area.value);
-            alert("הקוד הועתק זיכרון! עכשיו לך ל-products.js בגיטהאב ותדביק.");
+            alert("הקוד הועתק! עכשיו הדבק אותו בתוך products.js בגיטהאב ושמור.");
         }
 
         window.onload = initAdmin;
