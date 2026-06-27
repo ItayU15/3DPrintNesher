@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>חנות התלת מימד של איתי ואיתי</title>
+    <title>חנות מוצרי 3D של איתי ואיתי</title>
     
-    <meta property="og:title" content="חנות התלת מימד של איתי ואיתי">
+    <meta property="og:title" content="חנות מוצרי 3D של איתי ואיתי">
     <meta property="og:description" content="חנות מוצרי התלת מימד המובילה בנשר. הדפסות מותאמות אישית ישירות מהיצרן!">
     <meta property="og:image" content="https://itayu15.github.io/3DPrintNesher/images/logo.png">
     <meta property="og:url" content="https://itayu15.github.io/3DPrintNesher/">
@@ -42,7 +42,6 @@
         .price { font-weight: bold; color: #27ae60; font-size: 1.2em; margin: 10px 0; }
         button.add-to-cart { background-color: #3498db; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; font-size: 1em; width: 100%; }
         
-        /* עיצוב הסל למחשב רגיל */
         .cart { flex: 1; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); position: sticky; top: 20px; min-width: 290px; }
         .cart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
         .close-drawer-btn { display: none; }
@@ -61,67 +60,58 @@
         #toast { visibility: hidden; min-width: 250px; background-color: #1e293b; color: #4ade80; text-align: center; border-radius: 50px; padding: 12px 24px; position: fixed; z-index: 3000; left: 50%; bottom: 30px; transform: translateX(-50%); font-size: 0.95em; font-weight: bold; box-shadow: 0 10px 25px rgba(0,0,0,0.25); opacity: 0; transition: opacity 0.3s, bottom 0.3s; border: 1px solid #334155; }
         #toast.show { visibility: visible; opacity: 1; bottom: 40px; }
 
-        /* אלמנטים מיוחדים למובייל בלבד */
         #mobile-floater { display: none; }
         #drawer-backdrop { display: none; }
 
-        /* =======================================================
-           תיקון הבאג: סלולר ומגירת קניות מודרנית
-           ======================================================= */
         @media (max-width: 768px) {
             body { padding-bottom: 90px; } 
             .container { flex-direction: column; }
             
-            #drawer-backdrop { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:1998; opacity:0; transition: opacity 0.4s; display: none; }
+            #drawer-backdrop { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:1998; opacity:0; transition: opacity 0.35s; display: none; }
             #drawer-backdrop.active { opacity: 1; }
 
             .cart {
                 position: fixed;
                 bottom: 0;
-                transform: translateY(110%); /* מסתיר את הסל לגמרי מחוץ למסך */
+                transform: translateY(110%);
                 left: 0;
                 width: 100%;
-                max-height: 75vh; /* תופס רק 75% מהמסך ולא את כולו */
+                max-height: 75vh; 
                 overflow-y: auto;
                 z-index: 1999;
                 border-radius: 24px 24px 0 0;
                 box-shadow: 0 -10px 30px rgba(0,0,0,0.3);
-                transition: transform 0.4s cubic-bezier(0.2, 1, 0.3, 1);
+                transition: transform 0.38s cubic-bezier(0.2, 1, 0.3, 1);
                 margin: 0;
                 box-sizing: border-box;
                 padding: 0 20px 20px 20px;
             }
+            .cart.drawer-open { transform: translateY(0); }
             
-            .cart.drawer-open { 
-                transform: translateY(0); /* מקפיץ את הסל למעלה */
-            }
-            
-            /* הכותרת תמיד נדבקת למעלה כדי שהאיקס לא יברח */
             .cart-header {
                 position: sticky;
                 top: 0;
                 background: white;
                 z-index: 2000;
-                padding: 20px 0 15px 0;
+                padding: 18px 0 14px 0;
                 margin-bottom: 10px;
                 border-bottom: 1px solid #eee;
             }
 
-            /* כפתור איקס גדול ונוח */
             .close-drawer-btn { 
                 display: flex; 
                 align-items: center; 
-                justify-content: center;
+                gap: 6px;
                 background: #f1f5f9; 
-                border: none; 
-                font-size: 1.2em; 
-                width: 42px; 
-                height: 42px; 
-                border-radius: 50%; 
+                border: 1px solid #e2e8f0;
+                font-size: 0.9em; 
+                padding: 6px 14px;
+                border-radius: 50px; 
                 cursor: pointer; 
                 color: #334155; 
                 font-weight: bold; 
             }
+            .close-drawer-btn:active { background: #e2e8f0; }
             
             #mobile-floater {
                 display: flex;
@@ -150,8 +140,9 @@
     <header>
         <img class="store-logo" src="images/logo.png" alt="לוגו חנות התלת מימד" onerror="this.src='https://placehold.co/150x150/34495e/ffffff?text=3D+Logo'">
         <div>
-            <h1>חנות התלת מימד של איתי ואיתי</h1>
-            <p>חנות מוצרי התלת מימד המובילה בנשר.</p>
+            <!-- התיקונים המדויקים שלך בכותרות -->
+            <h1>חנות מוצרי 3D של איתי ואיתי</h1>
+            <p>חנות מוצרי התלת מימד המובילה בנשר</p>
         </div>
     </header>
 
@@ -183,10 +174,14 @@
         <div id="drawer-backdrop" onclick="toggleCartDrawer()"></div>
 
         <aside class="cart" id="cart-aside">
-            <!-- אזור הכותרת הדביק - מכיל את המילה "סל קניות" והאיקס -->
             <div class="cart-header">
                 <h2 style="margin:0;">🛒 סל קניות</h2>
-                <button type="button" class="close-drawer-btn" onclick="toggleCartDrawer()">✕</button>
+                
+                <!-- כפתור הסתרה עם הטקסט "הסתר סל" -->
+                <button type="button" class="close-drawer-btn" onclick="toggleCartDrawer()">
+                    <span>הסתר סל</span>
+                    <span style="font-size: 0.8em;">▼</span>
+                </button>
             </div>
             
             <div id="cart-items"><p style="color: #777;">הסל ריק כרגע</p></div>
@@ -233,8 +228,12 @@
         </aside>
     </div>
 
+    <!-- הגלולה הצפה המשודרגת במובייל -->
     <div id="mobile-floater" onclick="toggleCartDrawer()">
-        <span>🛒 לסיכום ההזמנה (<span id="floater-count">0</span>)</span>
+        <div style="display: flex; align-items: center; gap: 6px;">
+            <span style="font-size: 0.85em;">▲</span>
+            <span>הצג סל (<span id="floater-count">0</span>)</span>
+        </div>
         <span id="floater-price">0 ₪</span>
     </div>
 
@@ -256,7 +255,6 @@
             setTimeout(() => { toast.classList.remove("show"); }, 2400);
         }
 
-        // פונקציית הפתיחה/סגירה מעודכנת להתאמה לאנימציה החדשה
         function toggleCartDrawer() {
             const drawer = document.getElementById('cart-aside');
             const backdrop = document.getElementById('drawer-backdrop');
@@ -264,7 +262,7 @@
             if (drawer.classList.contains('drawer-open')) {
                 drawer.classList.remove('drawer-open');
                 backdrop.classList.remove('active');
-                setTimeout(() => backdrop.style.display = 'none', 400); // 0.4s כדי לסנכרן עם האנימציה
+                setTimeout(() => backdrop.style.display = 'none', 380);
             } else {
                 backdrop.style.display = 'block';
                 setTimeout(() => {
