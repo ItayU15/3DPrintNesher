@@ -1,3 +1,18 @@
+const storeSettings = {
+  announcement: {
+    active: false,
+    text: "🔥 מבצע מיוחד: משלוח חינם בהזמנה מעל 150 ₪!"
+  },
+  vacationMode: {
+    active: false,
+    message: "החנות בחופשה / בעומס הזמנות. ניתן לטייל בקטלוג, נחזור לקבל הזמנות בקרוב!"
+  },
+  coupons: [
+    { code: "NESHER10", discountPercent: 10, active: true },
+    { code: "PRINT20", discountPercent: 20, active: false }
+  ]
+};
+
 const catalogProducts = [
   {
     id: "prod_01",
@@ -9,7 +24,7 @@ const catalogProducts = [
     inStock: true,
     colors: {
       primary: ["לבן", "אפור", "ורוד", "שקוף"],
-      secondary: ["לבן", "אפור", "ורוד", "שקוף"] // צבע משני לדאמפלינג
+      secondary: ["לבן", "אפור", "ורוד", "שקוף"]
     }
   },
   {
@@ -22,7 +37,6 @@ const catalogProducts = [
     inStock: true,
     colors: {
       primary: ["לבן", "אפור", "ורוד", "שקוף"]
-      // למוצר זה יש רק צבע אחד, אין צבע משני
     }
   },
   {
@@ -34,8 +48,8 @@ const catalogProducts = [
     image: "images/keychain.jpg",
     inStock: true,
     colors: {
-      primary: ["לבן", "אפור", "ורוד", "שקוף"], // צבע הרקע
-      secondary: ["לבן", "אפור", "ורוד", "שקוף"] // צבע האותיות הבולטות
+      primary: ["לבן", "אפור", "ורוד", "שקוף"],
+      secondary: ["לבן", "אפור", "ורוד", "שקוף"]
     }
   },
   {
@@ -46,6 +60,5 @@ const catalogProducts = [
     description: "שלח לנו קובץ או תמונה ונבנה לך מודל תלת מימד ייעודי",
     image: "images/custom_logo.jpg",
     inStock: true
-    // מוצר בעיצוב אישי - הצבעים ייסגרו מול הלקוח בפרטי, לכן אין פה רשימה קבועה
   }
 ];
