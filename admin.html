@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ניהול חנות - 3DPrintNesher</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f0f2f5; margin: 0; padding: 20px; color: #1c1e21; }
+        header { background: #1a365d; color: white; padding: 15px 20px; border-radius: 8px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;}
+        header h1 { margin: 0; font-size: 1.4em; }
+        
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border-top: 4px solid #3182ce; }
+        .card h2 { margin-top: 0; font-size: 1.2em; color: #2b6cb0; border-bottom: 1px solid #edf2f7; padding-bottom: 10px; }
+        
+        label { display: block; margin: 12px 0 4px 0; font-weight: bold; font-size: 0.9em; color: #4a5568; }
+        input[type="text"], input[type="number"], select, textarea { width: 100%; padding: 8px; border: 1px solid #cbd5e0; border-radius: 4px; box-sizing: border-box; font-family: inherit;}
+        
+        .row { display: flex; gap: 10px; align-items: center; }
+        .btn { background: #3182ce; color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        .btn:hover { background: #2b6cb0; }
+        .btn-green { background: #38a169; }
+        .btn-green:hover { background: #2f855a; }
+        .btn-red { background: #e53e3e; padding: 4px 8px; font-size: 0.8em; }
+        
+        .prod-item { background: #f7fafc; border: 1px solid #e2e8f0; padding: 10px; border-radius: 6px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap:10px;}
+        
+        /* אזור הפקת הקוד למטה */
+        .generator-zone { background: #2d3748; color: white; padding: 25px; border-radius: 8px; text-align: center; }
+        .generator-zone textarea { height: 180px; text-align: left; direction: ltr; font-family: monospace; background: #1a202c; color: #68d391; border: none; margin: 15px 0;}
+    </style>
+</head>
+<body>
+
+    <header>
+        <div>
+            <h1>🎛️ תא הטייס - מערכת ניהול סודית</h1>
+            <small>שינויים כאן מייצרים קוד לשמירה ב-products.js</small>
+        </div>
+        <a href="index.html" target="_blank" style="color:#63b3ed; text-decoration:none; font-weight:bold;">→ לחנות באוויר</a>
+    </header>
+
+    <div class="grid">
+        <!-- כרטיס 1: הגדרות כלליות -->
+        <div class="card">
+            <h2>📢 הודעות ומצב חופשה</h2>
+            <label><input type="checkbox" id="ann-active"> הפעל פס קופץ בראש האתר</label>
+            <input type="text" id="ann-text" placeholder="טקסט להכרזה...">
+
+            <hr style="margin: 20px 0; border:0; border-top:1px dashed #ccc;">
+
+            <label style="color:#c53030;"><input type="checkbox" id="vac-active"> 🏖️ נעל חנות (מצב חופשה/עומס)</label>
+            <input type="text" id="vac-msg" placeholder="הודעה שתופיע ללקוחות...">
+        </div>
+
+        <!-- כרטיס 2: קופונים -->
+        <div class="card">
+            <h2>🏷️ ניהול קופונים</h2>
+            <div id="coupons-list"></div>
+            <div class="row" style="margin-top:15px;">
+                <input type="text" id="new-coup-code" placeholder="קוד (למשל SALE15)" style="flex:2;">
+                <input type="number" id="new-coup-val" placeholder="% הנחה" style="flex:1;">
+                <button class="btn" onclick="addCoupon()">הוסף</button>
+            </div>
+        </div>
+
+        <!-- כרטיס 3: מחשבון הדפסות פנימי -->
+        <div class="card" style="border-top-color: #805ad5;">
+            <h2>🧮 מחשבון תמחור סודי (אישי שלך)</h2>
+            <div class="row">
+                <div><label>משקל מודל (גרם):</label><input type="number" id="calc-g" value="50"></div>
+                <div><label>זמן הדפסה (שעות):</label><input type="number" id="calc-h" value="3"></div>
+            </div>
+            <button class="btn" style="background:#805ad5; width:100%; margin-top:15px;" onclick="calcPrint()">חשב כדאיות</button>
+            <div id="calc-res" style="margin-top:15px; background:#faf5ff; padding:10px; border-radius:4px; font-size:0.95em;"></div>
+        </div>
+
+        <!-- כרטיס 4: אשף הוספת מוצר חדש -->
+        <div class="card">
+            <h2>➕ אשף מוצר חדש</h2>
+            <label>שם המוצר:</label><input type="text" id="wiz-name" placeholder="למשל: מעמד לאוזניות">
+            <div class="row">
+                <div><label>מחיר (₪):</label><input type="number" id="wiz-price" placeholder="40"></div>
+                <div>
+                    <label>קטגוריה:</label>
+                    <select id="wiz-cat">
+                        <option>קליקרים</option><option>מחזיקי מפתחות</option><option>חלקים נעים</option><option>מיוחדים</option><option>מוצרים בעיצוב אישי</option>
+                    </select>
+                </div>
+            </div>
+            <label>תיאור קצר:</label><input type="text" id="wiz-desc" placeholder="משפט שמסביר על המוצר">
+            <label>שם קובץ תמונה (בתוך תיקיית images):</label><input type="text" id="wiz-img" placeholder="headstand.jpg">
+            
+            <label>צבעים לבחירה (הפרד בפסיק, למשל: לבן, שחור, כחול):</label>
+            <input type="text" id="wiz-pcolors" placeholder="השאיר ריק למוצר ללא בחירת צבע">
+            
+            <button class="btn btn-green" style="width:100%; margin-top:15px;" onclick="createProductFromWizard()">צרף לקטלוג למטה ↓</button>
+        </div>
+    </div>
+
+    <!-- כרטיס 5: עריכת קטלוג קיים -->
+    <div class="card" style="margin-bottom: 30px;">
+        <h2>📦 קטלוג המוצרים בפועל (סמן מלאי ועדכן מחירים)</h2>
+        <div id="catalog-editor-list"></div>
+    </div>
+
+    <!-- אזור ייצור הקוד -->
+    <div class="generator-zone">
+        <h2>⚡ סיימת לעדכן? לחץ כדי לייצר קוד שמירה</h2>
+        <button class="btn btn-green" style="font-size:1.2em; padding:15px 30px;" onclick="generateExport()">1. הפק קוד מעודכן</button>
+        
+        <div id="copy-section" style="display:none;">
+            <textarea id="export-code-area" readonly></textarea>
+            <br>
+            <button class="btn" style="background:#ecc94b; color:#000; font-size:1.1em;" onclick="copyCode()">2. העתיק קוד ללוח</button>
+            <p style="font-size:0.9em; color:#a0aec0; margin-top:10px;">לאחר ההעתקה: פתח בגיטהאב את products.js -> ערוך -> הדבק במקום הקיים -> שמור!</p>
+        </div>
+    </div>
+
+    <script src="products.js"></script>
+    <script>
+        let currSettings, currProducts;
+
+        function initAdmin() {
+            if (typeof catalogProducts === 'undefined') {
+                alert("שגיאה קריטית: קובץ products.js לא הצליח להיטען.");
+                return;
+            }
+            currSettings = JSON.parse(JSON.stringify(storeSettings));
+            currProducts = JSON.parse(JSON.stringify(catalogProducts));
+
+            // טעינת נתונים לשדות
+            document.getElementById('ann-active').checked = currSettings.announcement.active;
+            document.getElementById('ann-text').value = currSettings.announcement.text;
+            document.getElementById('vac-active').checked = currSettings.vacationMode.active;
+            document.getElementById('vac-msg').value = currSettings.vacationMode.message;
+
+            renderCoupons();
+            renderCatalogEditor();
+            calcPrint();
+        }
+
+        function renderCoupons() {
+            const wrap = document.getElementById('coupons-list');
+            wrap.innerHTML = '';
+            currSettings.coupons.forEach((c, idx) => {
+                wrap.innerHTML += `
+                    <div class="row" style="margin-bottom:6px; background:#edf2f7; padding:6px; border-radius:4px;">
+                        <strong style="flex:1;">${c.code} (${c.discountPercent}%)</strong>
+                        <button class="btn btn-red" onclick="removeCoupon(${idx})">מחק</button>
+                    </div>`;
+            });
+        }
+
+        function addCoupon() {
+            const c = document.getElementById('new-coup-code').value.trim().toUpperCase();
+            const v = Number(document.getElementById('new-coup-val').value);
+            if(!c || !v) return alert("הזן קוד ואחוז הנחה");
+            currSettings.coupons.push({code: c, discountPercent: v, active: true});
+            renderCoupons();
+            document.getElementById('new-coup-code').value = '';
+            document.getElementById('new-coup-val').value = '';
+        }
+
+        function removeCoupon(idx) { currSettings.coupons.splice(idx, 1); renderCoupons(); }
+
+        function renderCatalogEditor() {
+            const wrap = document.getElementById('catalog-editor-list');
+            wrap.innerHTML = '';
+            currProducts.forEach((p, idx) => {
+                wrap.innerHTML += `
+                    <div class="prod-item">
+                        <div><strong>${p.name}</strong> <span style="color:#718096; font-size:0.85em;">[${p.category}]</span></div>
+                        <div class="row">
+                            <label style="margin:0;">מחיר: <input type="number" value="${p.price}" style="width:70px" onchange="currProducts[idx].price=Number(this.value)"> ₪</label>
+                            <label style="margin:0;"><input type="checkbox" ${p.inStock ? 'checked':''} onchange="currProducts[idx].inStock=this.checked"> במלאי</label>
+                            <button class="btn btn-red" onclick="currProducts.splice(${idx},1); renderCatalogEditor();">מחק</button>
+                        </div>
+                    </div>`;
+            });
+        }
+
+        function createProductFromWizard() {
+            const name = document.getElementById('wiz-name').value.trim();
+            const price = Number(document.getElementById('wiz-price').value);
+            if(!name || !price) return alert("שם ומחיר הם חובה");
+
+            const newObj = {
+                id: "prod_" + Math.floor(1000 + Math.random() * 9000),
+                name: name,
+                category: document.getElementById('wiz-cat').value,
+                price: price,
+                description: document.getElementById('wiz-desc').value.trim(),
+                image: "images/" + (document.getElementById('wiz-img').value.trim() || "placeholder.jpg"),
+                inStock: true
+            };
+
+            const colors = document.getElementById('wiz-pcolors').value.split(',').map(s=>s.trim()).filter(s=>s);
+            if(colors.length > 0) {
+                newObj.colors = { primary: colors };
+            }
+
+            currProducts.push(newObj);
+            renderCatalogEditor();
+            alert(`"${name}" נוסף לקטלוג בהצלחה! לא לשכוח לייצר קוד למטה.`);
+        }
+
+        function calcPrint() {
+            const g = Number(document.getElementById('calc-g').value) || 0;
+            const h = Number(document.getElementById('calc-h').value) || 0;
+            const cost = (g * 0.09) + (h * 1.5); // חומר + חשמל ובלאי
+            const sell = cost * 3.5;
+            document.getElementById('calc-res').innerHTML = `
+                עלות ייצור עצמית משוערת: <b>${cost.toFixed(1)} ₪</b><br>
+                מחיר מכירה מומלץ ללקוח: <b style="color:#2f855a; font-size:1.15em;">${Math.round(sell)} ₪</b>
+            `;
+        }
+
+        function generateExport() {
+            currSettings.announcement.active = document.getElementById('ann-active').checked;
+            currSettings.announcement.text = document.getElementById('ann-text').value.trim();
+            currSettings.vacationMode.active = document.getElementById('vac-active').checked;
+            currSettings.vacationMode.message = document.getElementById('vac-msg').value.trim();
+
+            const output = `const storeSettings = ${JSON.stringify(currSettings, null, 2)};\n\nconst catalogProducts = ${JSON.stringify(currProducts, null, 2)};`;
+            
+            document.getElementById('export-code-area').value = output;
+            document.getElementById('copy-section').style.display = 'block';
+            document.getElementById('copy-section').scrollIntoView({behavior: 'smooth'});
+        }
+
+        function copyCode() {
+            const area = document.getElementById('export-code-area');
+            area.select();
+            navigator.clipboard.writeText(area.value);
+            alert("הקוד הועתק זיכרון! עכשיו לך ל-products.js בגיטהאב ותדביק.");
+        }
+
+        window.onload = initAdmin;
+    </script>
+</body>
+</html>
