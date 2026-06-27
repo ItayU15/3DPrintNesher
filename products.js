@@ -1,12 +1,16 @@
 const catalogProducts = [
   {
     id: "prod_01",
-    name: "דרקון מפרקי גמיש",
-    category: "חלקים נעים",
-    price: 45,
-    description: "מודל זז המודפס ביחידה אחת ללא הרכבה, מעולה להפגת מתחים",
-    image: "images/dragon.jpg",
-    inStock: true
+    name: "מיני דאמפלינג",
+    category: "קליקרים",
+    price: 10,
+    description: "מודל זז המודפס ביחידה אחת, מעולה להפגת מתחים",
+    image: "images/dumpling.jpg",
+    inStock: true,
+    colors: {
+      primary: ["לבן", "אפור", "ורוד", "שקוף"],
+      secondary: ["זהב", "כסף", "שחור", "לבן"] // צבע משני לדאמפלינג
+    }
   },
   {
     id: "prod_02",
@@ -15,7 +19,11 @@ const catalogProducts = [
     price: 20,
     description: "גאדג'ט לחיצות ממכר שמתיישב בול על כף היד",
     image: "images/clicker.jpg",
-    inStock: true
+    inStock: true,
+    colors: {
+      primary: ["כחול", "אדום", "כתום זוהר", "ירוק"]
+      // למוצר זה יש רק צבע אחד, אין צבע משני
+    }
   },
   {
     id: "prod_03",
@@ -24,7 +32,11 @@ const catalogProducts = [
     price: 25,
     description: "הדפסה אישית של השם שלך באנגלית או בעברית",
     image: "images/keychain.jpg",
-    inStock: true
+    inStock: true,
+    colors: {
+      primary: ["שחור", "לבן", "כחול כהה"], // צבע הרקע
+      secondary: ["זהב", "לבן", "אדום"] // צבע האותיות הבולטות
+    }
   },
   {
     id: "prod_04",
@@ -34,5 +46,6 @@ const catalogProducts = [
     description: "שלח לנו קובץ או תמונה ונבנה לך מודל תלת מימד ייעודי",
     image: "images/custom_logo.jpg",
     inStock: true
+    // מוצר בעיצוב אישי - הצבעים ייסגרו מול הלקוח בפרטי, לכן אין פה רשימה קבועה
   }
 ];
