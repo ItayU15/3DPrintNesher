@@ -4,45 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>חנות התלת מימד של איתי ואיתי</title>
+    
+    <!-- משימה 2: תגיות תצוגה מוגדלת לשיתוף ב-WhatsApp -->
+    <meta property="og:title" content="חנות התלת מימד של איתי ואיתי">
+    <meta property="og:description" content="חנות מוצרי התלת מימד המובילה בנשר. הדפסות מותאמות אישית ישירות מהיצרן!">
+    <meta property="og:image" content="https://itayu15.github.io/3DPrintNesher/images/logo.png">
+    <meta property="og:url" content="https://itayu15.github.io/3DPrintNesher/">
+    <meta property="og:type" content="website">
+
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f4f4f9; margin: 0; padding: 20px; color: #333; }
+        body { font-family: Arial, sans-serif; background-color: #f4f4f9; margin: 0; padding: 20px; color: #333; box-sizing: border-box; }
         
-        /* עיצוב הכותרת החדשה והלוגו */
-        header { 
-            background-color: #2c3e50; 
-            color: white; 
-            padding: 20px; 
-            border-radius: 8px; 
-            margin-bottom: 15px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            gap: 20px; 
-            flex-wrap: wrap; 
-            text-align: center; 
-        }
-        .store-logo { 
-            width: 85px; 
-            height: 85px; 
-            border-radius: 12px; 
-            object-fit: contain; 
-            background: rgba(255,255,255,0.08); 
-            padding: 5px; 
-            border: 1px solid rgba(255,255,255,0.15);
-        }
-        header h1 { margin: 0 0 6px 0; font-size: 1.65em; letter-spacing: 0.5px; }
+        header { background-color: #2c3e50; color: white; padding: 20px; border-radius: 8px; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap; text-align: center; }
+        .store-logo { width: 85px; height: 85px; border-radius: 12px; object-fit: contain; background: rgba(255,255,255,0.08); padding: 5px; border: 1px solid rgba(255,255,255,0.15); }
+        header h1 { margin: 0 0 6px 0; font-size: 1.65em; }
         header p { margin: 0; font-size: 1.05em; color: #bdc3c7; font-weight: 300; }
         
-        #announcement-banner { display: none; background-color: #e67e22; color: white; text-align: center; padding: 10px; font-weight: bold; border-radius: 8px; margin-bottom: 15px; font-size: 1em; box-shadow: 0 2px 5px rgba(230,126,34,0.2); }
+        #announcement-banner { display: none; background-color: #e67e22; color: white; text-align: center; padding: 10px; font-weight: bold; border-radius: 8px; margin-bottom: 15px; }
         
         .controls-bar { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 20px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 15px; }
-        .filter-buttons { display: flex; flex-wrap: wrap; gap: 10px; }
-        .filter-btn { background-color: #e0e0e0; color: #333; border: none; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 0.9em; transition: all 0.2s; }
-        .filter-btn:hover, .filter-btn.active { background-color: #3498db; color: white; }
+        .filter-buttons { display: flex; flex-wrap: wrap; gap: 8px; }
+        .filter-btn { background-color: #e0e0e0; color: #333; border: none; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 0.9em; }
+        .filter-btn.active { background-color: #3498db; color: white; }
         .sort-select { padding: 8px; border-radius: 5px; border: 1px solid #ccc; font-size: 0.9em; }
 
         .container { display: flex; gap: 20px; align-items: flex-start; }
-        .catalog { flex: 3; display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
+        .catalog { flex: 3; display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 20px; width: 100%; }
         
         .product { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center; display: flex; flex-direction: column; justify-content: space-between; border-top: 4px solid #3498db; }
         .product-img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 4px; background-color: #eaeaea; margin-bottom: 10px; }
@@ -54,10 +41,9 @@
         .color-selectors select { width: 100%; padding: 4px; margin-bottom: 5px; border: 1px solid #ddd; border-radius: 4px; }
 
         .price { font-weight: bold; color: #27ae60; font-size: 1.2em; margin: 10px 0; }
-        button.add-to-cart { background-color: #3498db; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; font-size: 1em; width: 100%; transition: background 0.2s; }
-        button.add-to-cart:hover { background-color: #2980b9; }
+        button.add-to-cart { background-color: #3498db; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; font-size: 1em; width: 100%; }
         
-        /* סל קניות וטופס */
+        /* עיצוב הסל למחשב רגיל */
         .cart { flex: 1; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); position: sticky; top: 20px; min-width: 290px; }
         .cart-item { border-bottom: 1px solid #eee; padding: 8px 0; font-size: 0.9em; display: flex; justify-content: space-between; align-items: center; }
         .cart-item-details { display: flex; flex-direction: column; text-align: right; }
@@ -66,15 +52,71 @@
         
         .cart-options { margin-top: 15px; font-size: 0.88em; }
         .cart-options label { display: block; margin-top: 8px; color: #2c3e50; }
-        .cart-options select, .cart-options input { width: 100%; padding: 8px; margin-top: 3px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-family: inherit;}
+        .cart-options select, .cart-options input { width: 100%; padding: 8px; margin-top: 3px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
         
-        .checkout-btn { background-color: #25D366; color: white; border: none; padding: 12px; border-radius: 5px; cursor: pointer; font-size: 1.1em; width: 100%; font-weight: bold; margin-top: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 2px 5px rgba(37,211,102,0.3); }
-        .checkout-btn:hover { background-color: #20ba5a; }
+        .checkout-btn { background-color: #25D366; color: white; border: none; padding: 12px; border-radius: 5px; cursor: pointer; font-size: 1.1em; width: 100%; font-weight: bold; margin-top: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+
+        /* משימה 3: עיצוב הודעת הטוסט הצפה */
+        #toast { visibility: hidden; min-width: 250px; background-color: #1e293b; color: #4ade80; text-align: center; border-radius: 50px; padding: 12px 24px; position: fixed; z-index: 3000; left: 50%; bottom: 30px; transform: translateX(-50%); font-size: 0.95em; font-weight: bold; box-shadow: 0 10px 25px rgba(0,0,0,0.25); opacity: 0; transition: opacity 0.3s, bottom 0.3s; border: 1px solid #334155; }
+        #toast.show { visibility: visible; opacity: 1; bottom: 40px; }
+
+        /* אלמנטים מיוחדים למובייל בלבד (מוסתרים במחשב) */
+        .close-drawer-btn { display: none; }
+        #mobile-floater { display: none; }
+        #drawer-backdrop { display: none; }
+
+        /* =======================================================
+           משימה 1: התאמת סמארטפונים ומגירת קניות נשלפת
+           ======================================================= */
+        @media (max-width: 768px) {
+            body { padding-bottom: 90px; } /* מונע מהכפתור הצף להסתיר מוצר אחרון */
+            .container { flex-direction: column; }
+            
+            #drawer-backdrop { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:1998; opacity:0; transition: opacity 0.3s; }
+            #drawer-backdrop.active { display: block; opacity: 1; }
+
+            .cart {
+                position: fixed;
+                bottom: -100%;
+                left: 0;
+                width: 100%;
+                max-height: 85vh;
+                overflow-y: auto;
+                z-index: 1999;
+                border-radius: 20px 20px 0 0;
+                box-shadow: 0 -10px 30px rgba(0,0,0,0.3);
+                transition: bottom 0.35s cubic-bezier(0.1, 0.9, 0.2, 1);
+                margin: 0;
+                box-sizing: border-box;
+            }
+            .cart.drawer-open { bottom: 0; }
+
+            .close-drawer-btn { display: block; background: #eee; border: none; font-size: 1.2em; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; color: #333; font-weight: bold;}
+            
+            #mobile-floater {
+                display: flex;
+                position: fixed;
+                bottom: 20px;
+                left: 20px;
+                right: 20px;
+                background: #27ae60;
+                color: white;
+                padding: 15px 22px;
+                border-radius: 50px;
+                box-shadow: 0 5px 20px rgba(39, 174, 96, 0.5);
+                z-index: 1500;
+                justify-content: space-between;
+                align-items: center;
+                font-weight: bold;
+                font-size: 1.05em;
+                cursor: pointer;
+            }
+            #toast.show { bottom: 85px; } /* עולה קצת יותר גבוה במובייל שלא יתנגש בצף */
+        }
     </style>
 </head>
 <body>
 
-    <!-- אזור הכותרת עם הלוגו -->
     <header>
         <img class="store-logo" src="images/logo.png" alt="לוגו חנות התלת מימד" onerror="this.src='https://placehold.co/150x150/34495e/ffffff?text=3D+Logo'">
         <div>
@@ -108,9 +150,16 @@
     <div class="container" id="main-store-wrapper">
         <main class="catalog" id="catalog-container"></main>
 
+        <!-- מסך רקע כהה למובייל -->
+        <div id="drawer-backdrop" onclick="toggleCartDrawer()"></div>
+
         <aside class="cart" id="cart-aside">
-            <h2>🛒 סל קניות</h2>
-            <div id="cart-items"><p style="color: #777;">הסל ריק כרגע</p></div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h2 style="margin:0;">🛒 סל קניות</h2>
+                <button class="close-drawer-btn" onclick="toggleCartDrawer()">✕</button>
+            </div>
+            
+            <div id="cart-items" style="margin-top:15px;"><p style="color: #777;">הסל ריק כרגע</p></div>
             
             <div class="cart-options">
                 <hr style="border: 0; border-top: 1px dashed #ccc; margin: 15px 0;">
@@ -154,6 +203,15 @@
         </aside>
     </div>
 
+    <!-- הגלולה הצפה בתחתית המסך במובייל -->
+    <div id="mobile-floater" onclick="toggleCartDrawer()">
+        <span>🛒 לסיכום ההזמנה (<span id="floater-count">0</span>)</span>
+        <span id="floater-price">0 ₪</span>
+    </div>
+
+    <!-- אזור פליטת הודעות הטוסט -->
+    <div id="toast"></div>
+
     <script src="products.js"></script>
     <script>
         const MY_PHONE_NUMBER = "972535559309"; 
@@ -162,6 +220,30 @@
         let selectedSort = 'default';
         let cart = [];
         let discount = 0;
+
+        // מנוע הודעות טוסט (משימה 3)
+        function triggerToast(msg) {
+            const toast = document.getElementById("toast");
+            toast.innerText = msg;
+            toast.classList.add("show");
+            setTimeout(() => { toast.classList.remove("show"); }, 2400);
+        }
+
+        // פתיחה וסגירת עגלת מובייל (משימה 1)
+        function toggleCartDrawer() {
+            const drawer = document.getElementById('cart-aside');
+            const backdrop = document.getElementById('drawer-backdrop');
+            
+            if (drawer.classList.contains('drawer-open')) {
+                drawer.classList.remove('drawer-open');
+                backdrop.classList.remove('active');
+                setTimeout(() => backdrop.style.display = 'none', 300);
+            } else {
+                backdrop.style.display = 'block';
+                setTimeout(() => backdrop.classList.add('active'), 10);
+                drawer.classList.add('drawer-open');
+            }
+        }
 
         function initStore() {
             if (typeof storeSettings !== 'undefined') {
@@ -174,9 +256,11 @@
                 if (storeSettings.vacationMode && storeSettings.vacationMode.active) {
                     const wrapper = document.getElementById('main-store-wrapper');
                     const controls = document.getElementById('store-controls-zone');
+                    const floater = document.getElementById('mobile-floater');
                     const msg = storeSettings.vacationMode.message || "החנות בעומס זמני, נחזור לקבל הזמנות בקרוב.";
                     
                     controls.style.display = 'none';
+                    floater.style.display = 'none';
                     wrapper.innerHTML = `
                         <div style="grid-column: 1/-1; text-align: center; background: #fff5f5; color: #c53030; padding: 40px; border-radius: 8px; border: 2px solid #feb2b2; font-size: 1.25em; font-weight: bold; width: 100%; box-sizing: border-box; margin-top: 10px;">
                             🏖️ ${msg}
@@ -268,27 +352,31 @@
             if (sSelect) sColor = sSelect.value;
 
             cart.push({ ...product, chosenPrimary: pColor, chosenSecondary: sColor });
+            
             updateCartDisplay();
+            triggerToast(`✔ "${product.name}" נוסף לעגלה`); // הטוסט במקום אלרט
         }
 
-        function removeFromCart(index) { cart.splice(index, 1); updateCartDisplay(); }
+        function removeFromCart(index) { 
+            cart.splice(index, 1); 
+            updateCartDisplay(); 
+        }
 
         function applyCoupon() {
             const code = document.getElementById('coupon-code').value.trim().toUpperCase();
             
             if (typeof storeSettings !== 'undefined' && storeSettings.coupons) {
                 const foundCoupon = storeSettings.coupons.find(c => c.code === code && c.active);
-                
                 if (foundCoupon) {
                     discount = foundCoupon.discountPercent / 100;
-                    alert(`קופון הופעל בהצלחה! קיבלת ${foundCoupon.discountPercent}% הנחה`);
+                    triggerToast(`🏷️ קופון הופעל! ${foundCoupon.discountPercent}% הנחה`);
                 } else {
                     discount = 0;
-                    alert('קוד קופון שגוי, לא פעיל או פג תוקף');
+                    triggerToast('❌ קוד קופון שגוי או פג תוקף');
                 }
             } else {
-                if (code === 'NESHER10') { discount = 0.10; alert('קופון הופעל! 10% הנחה'); } 
-                else { discount = 0; alert('קוד לא תקין'); }
+                if (code === 'NESHER10') { discount = 0.10; triggerToast('🏷️ קופון הופעל (10%)'); } 
+                else { discount = 0; triggerToast('❌ קוד לא תקין'); }
             }
             updateCartDisplay();
         }
@@ -299,11 +387,19 @@
             const delivery = document.getElementById('delivery-method').value;
             const addressDiv = document.getElementById('address-container');
 
-            if (delivery === 'shipping') {
-                addressDiv.style.display = 'block';
-            } else {
-                addressDiv.style.display = 'none';
-            }
+            if (delivery === 'shipping') addressDiv.style.display = 'block';
+            else addressDiv.style.display = 'none';
+
+            // חישוב המלאי לעדכון הכפתור הצף במובייל
+            let sum = 0;
+            cart.forEach(item => { sum += item.price; });
+            if (discount > 0) sum = sum * (1 - discount);
+            if (delivery === 'shipping' && cart.length > 0) sum += 20;
+            const finalRoundedSum = Math.round(sum);
+
+            // עדכון הגלולה הצפה במובייל
+            document.getElementById('floater-count').innerText = cart.length;
+            document.getElementById('floater-price').innerText = finalRoundedSum + ' ₪';
 
             if (cart.length === 0) {
                 cartContainer.innerHTML = '<p style="color: #777;">הסל ריק כרגע</p>';
@@ -312,10 +408,8 @@
             }
 
             cartContainer.innerHTML = '';
-            let sum = 0;
 
             cart.forEach((item, idx) => {
-                sum += item.price;
                 let colorText = '';
                 if (item.chosenPrimary) colorText += `צבע: ${item.chosenPrimary}`;
                 if (item.chosenSecondary) colorText += ` | משני: ${item.chosenSecondary}`;
@@ -333,13 +427,11 @@
                 cartContainer.appendChild(div);
             });
 
-            if (discount > 0) { sum = sum * (1 - discount); }
-            if (delivery === 'shipping') { sum += 20; }
-            totalSpan.innerText = Math.round(sum);
+            totalSpan.innerText = finalRoundedSum;
         }
 
         function sendOrderToWhatsapp() {
-            if (cart.length === 0) { alert('הסל שלך ריק!'); return; }
+            if (cart.length === 0) { triggerToast('❌ הסל שלך ריק!'); return; }
 
             const name = document.getElementById('cust-name').value.trim();
             const phone = document.getElementById('cust-phone').value.trim();
@@ -347,53 +439,38 @@
             const deliveryVal = deliverySelect.value;
             const deliveryText = deliverySelect.options[deliverySelect.selectedIndex].text;
             const address = document.getElementById('cust-address').value.trim();
-            
             const paymentSelect = document.getElementById('payment-method');
             const paymentText = paymentSelect.options[paymentSelect.selectedIndex].text;
 
             if (!name) { alert('אנא הזן שם מלא בטופס ההזמנה'); return; }
             if (!phone) { alert('אנא הזן מספר טלפון ליצירת קשר'); return; }
-            if (deliveryVal === 'shipping' && !address) {
-                alert('בחרת במשלוח עד הבית - אנא הזן כתובת למשלוח');
-                return;
-            }
+            if (deliveryVal === 'shipping' && !address) { alert('בחרת במשלוח - אנא הזן כתובת'); return; }
 
             const total = document.getElementById('cart-total').innerText;
 
             let text = "היי איתי! הזמנה חדשה מהאתר *3DPrintNesher* 🚀\n\n";
+            text += "*👤 פרטי המזמין:*\n▪️ שם: " + name + "\n▪️ טלפון: " + phone + "\n";
+            if (deliveryVal === 'shipping') text += "▪️ כתובת: " + address + "\n";
             
-            text += "*👤 פרטי המזמין:*\n";
-            text += `▪️ שם: ${name}\n`;
-            text += `▪️ טלפון: ${phone}\n`;
-            if (deliveryVal === 'shipping') {
-                text += `▪️ כתובת למשלוח: ${address}\n`;
-            }
-            
-            text += `\n*📦 פריטים בהזמנה:*\n`;
-
+            text += "\n*📦 פריטים בהזמנה:*\n";
             cart.forEach(item => {
-                text += `▪️ ${item.name} (${item.price} ₪)`;
+                text += "▪️ " + item.name + " (" + item.price + " ₪)";
                 if (item.chosenPrimary || item.chosenSecondary) {
-                    text += ` [`;
-                    if (item.chosenPrimary) text += `צבע: ${item.chosenPrimary}`;
-                    if (item.chosenSecondary) text += ` | משני: ${item.chosenSecondary}`;
-                    text += `]`;
+                    text += " [";
+                    if (item.chosenPrimary) text += "צבע: " + item.chosenPrimary;
+                    if (item.chosenSecondary) text += " | משני: " + item.chosenSecondary;
+                    text += "]";
                 }
-                text += `\n`;
+                text += "\n";
             });
 
-            text += `\n*🚚 אופן קבלה:* ${deliveryText}\n`;
-            text += `*💳 תשלום מועדף:* ${paymentText}\n`;
-            
-            if (discount > 0) { text += `*🏷️ קופון:* הופעלה הנחה מהאתר\n`; }
-            
-            text += `\n*💰 סה"כ לתשלום: ${total} ₪*\n\n`;
-            text += `אשמח לאישור הזמנה ופרטי תשלום!`;
+            text += "\n*🚚 אופן קבלה:* " + deliveryText + "\n*💳 תשלום מועדף:* " + paymentText + "\n";
+            if (discount > 0) text += "*🏷️ קופון:* הופעלה הנחה מהאתר\n";
+            text += "\n*💰 סה\"כ לתשלום: " + total + " ₪*\n\nאשמח לאישור הזמנה ופרטי תשלום!";
 
-            const encodedText = encodeURIComponent(text);
-            const whatsappUrl = `https://wa.me/${MY_PHONE_NUMBER}?text=${encodedText}`;
-
-            window.open(whatsappUrl, '_blank');
+            window.open(`https://wa.me/${MY_PHONE_NUMBER}?text=${encodeURIComponent(text)}`, '_blank');
+            
+            if (window.innerWidth <= 768) toggleCartDrawer(); // סוגר מגירה במובייל אחרי שליחה
         }
 
         window.onload = initStore;
