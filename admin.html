@@ -3,121 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ניהול חנות - 3DPrintNesher</title>
+    <title>תא הטייס - ניהול חנות</title>
     <style>
         body { font-family: Arial, sans-serif; background-color: #f0f2f5; margin: 0; padding: 20px; color: #1c1e21; }
-        header { background: #1a365d; color: white; padding: 15px 20px; border-radius: 8px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;}
-        header h1 { margin: 0; font-size: 1.4em; }
+        header { background: #1a365d; color: white; padding: 15px 20px; border-radius: 8px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center;}
+        header h1 { margin: 0; font-size: 1.35em; }
         
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        #status-bar { padding: 10px; border-radius: 6px; margin-bottom: 20px; text-align: center; font-weight: bold; font-size: 0.95em; }
+        
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(310px, 1fr)); gap: 20px; margin-bottom: 30px; }
         .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border-top: 4px solid #3182ce; }
-        .card h2 { margin-top: 0; font-size: 1.2em; color: #2b6cb0; border-bottom: 1px solid #edf2f7; padding-bottom: 10px; }
+        .card h2 { margin-top: 0; font-size: 1.15em; color: #2b6cb0; border-bottom: 1px solid #edf2f7; padding-bottom: 10px; }
         
-        label { display: block; margin: 12px 0 4px 0; font-weight: bold; font-size: 0.9em; color: #4a5568; }
-        input[type="text"], input[type="number"], select, textarea { width: 100%; padding: 8px; border: 1px solid #cbd5e0; border-radius: 4px; box-sizing: border-box; font-family: inherit;}
+        label { display: block; margin: 12px 0 4px 0; font-weight: bold; font-size: 0.88em; color: #4a5568; }
+        input[type="text"], input[type="number"], select { width: 100%; padding: 8px; border: 1px solid #cbd5e0; border-radius: 4px; box-sizing: border-box; font-family: inherit;}
         
-        .row { display: flex; gap: 10px; align-items: center; }
-        .btn { background: #3182ce; color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        .row { display: flex; gap: 8px; align-items: center; }
+        .btn { background: #3182ce; color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; transition: all 0.2s; }
         .btn:hover { background: #2b6cb0; }
         .btn-green { background: #38a169; }
         .btn-green:hover { background: #2f855a; }
-        .btn-red { background: #e53e3e; padding: 4px 8px; font-size: 0.8em; }
+        .btn-red { background: #e53e3e; padding: 5px 10px; font-size: 0.8em; color: white; border:none; border-radius: 4px; cursor: pointer;}
         
-        .prod-item { background: #f7fafc; border: 1px solid #e2e8f0; padding: 10px; border-radius: 6px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap:10px;}
+        .prod-item { background: #f8fafc; border: 1px solid #cbd5e1; padding: 12px; border-radius: 6px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap:10px;}
         
-        .generator-zone { background: #2d3748; color: white; padding: 25px; border-radius: 8px; text-align: center; }
-        .generator-zone textarea { height: 180px; text-align: left; direction: ltr; font-family: monospace; background: #1a202c; color: #68d391; border: none; margin: 15px 0;}
+        .generator-zone { background: #1e293b; color: white; padding: 25px; border-radius: 8px; text-align: center; }
+        .generator-zone textarea { width: 100%; height: 220px; text-align: left; direction: ltr; font-family: monospace; background: #0f172a; color: #38bdf8; border: 2px solid #334155; border-radius: 6px; padding: 10px; box-sizing: border-box; margin: 15px 0;}
     </style>
 </head>
 <body>
 
     <header>
         <div>
-            <h1>🎛️ תא הטייס - מערכת ניהול סודית</h1>
-            <small>שינויים כאן מייצרים קוד לשמירה ב-products.js</small>
+            <h1>🎛️ תא הטייס - 3DPrintNesher</h1>
+            <small>מערכת לעדכון הקטלוג והגדרות החנות</small>
         </div>
-        <a href="index.html" target="_blank" style="color:#63b3ed; text-decoration:none; font-weight:bold;">→ לחנות באוויר</a>
+        <a href="index.html" target="_blank" style="color:#38bdf8; text-decoration:none; font-weight:bold;">→ לחנות באוויר</a>
     </header>
+
+    <div id="status-bar" style="display: none;"></div>
 
     <div class="grid">
         <div class="card">
-            <h2>📢 הודעות ומצב חופשה</h2>
-            <label><input type="checkbox" id="ann-active"> הפעל פס קופץ בראש האתר</label>
-            <input type="text" id="ann-text" placeholder="טקסט להכרזה...">
+            <h2>📢 באנר הודעות ונראות</h2>
+            <label><input type="checkbox" id="ann-active"> הפעל באנר בראש האתר</label>
+            <input type="text" id="ann-text" placeholder="למשל: משלוחים חינם לנשר והסביבה">
 
             <hr style="margin: 20px 0; border:0; border-top:1px dashed #ccc;">
 
-            <label style="color:#c53030;"><input type="checkbox" id="vac-active"> 🏖️ נעל חנות (מצב חופשה/עומס)</label>
-            <input type="text" id="vac-msg" placeholder="הודעה שתופיע ללקוחות...">
+            <label style="color:#e53e3e;"><input type="checkbox" id="vac-active"> 🏖️ עצור הזמנות (מצב חופשה/עומס)</label>
+            <input type="text" id="vac-msg" placeholder="הודעה ללקוחות בזמן שהאתר נעול">
         </div>
 
         <div class="card">
-            <h2>🏷️ ניהול קופונים</h2>
+            <h2>🏷️ קופונים ומבצעים</h2>
             <div id="coupons-list"></div>
             <div class="row" style="margin-top:15px;">
-                <input type="text" id="new-coup-code" placeholder="קוד (למשל SALE15)" style="flex:2;">
+                <input type="text" id="new-coup-code" placeholder="קוד (PRINT10)" style="flex:2;">
                 <input type="number" id="new-coup-val" placeholder="% הנחה" style="flex:1;">
                 <button class="btn" onclick="addCoupon()">הוסף</button>
             </div>
         </div>
 
         <div class="card" style="border-top-color: #805ad5;">
-            <h2>🧮 מחשבון תמחור סודי (אישי שלך)</h2>
+            <h2>🧮 תמחור מהיר למודלים מיוחדים</h2>
             <div class="row">
-                <div><label>משקל מודל (גרם):</label><input type="number" id="calc-g" value="50" oninput="calcPrint()"></div>
-                <div><label>זמן הדפסה (שעות):</label><input type="number" id="calc-h" value="3" oninput="calcPrint()"></div>
+                <div><label>משקל בסלייસર (גרם):</label><input type="number" id="calc-g" value="45" oninput="calcPrint()"></div>
+                <div><label>זמן הדפסה (שעות):</label><input type="number" id="calc-h" value="2.5" oninput="calcPrint()"></div>
             </div>
-            <div id="calc-res" style="margin-top:15px; background:#faf5ff; padding:10px; border-radius:4px; font-size:0.95em;"></div>
+            <div id="calc-res" style="margin-top:15px; background:#faf5ff; padding:10px; border-radius:4px; font-size:0.92em; border:1px solid #e9d8fd;"></div>
         </div>
 
         <div class="card">
-            <h2>➕ אשף מוצר חדש</h2>
-            <label>שם המוצר:</label><input type="text" id="wiz-name" placeholder="למשל: מעמד לאוזניות">
+            <h2>➕ יצירת מוצר חדש</h2>
+            <label>שם המוצר:</label><input type="text" id="wiz-name" placeholder="למשל: מעמד לטלפון">
             <div class="row">
-                <div><label>מחיר (₪):</label><input type="number" id="wiz-price" placeholder="40"></div>
+                <div><label>מחיר (₪):</label><input type="number" id="wiz-price" placeholder="35"></div>
                 <div>
                     <label>קטגוריה:</label>
                     <select id="wiz-cat">
-                        <option>קליקרים</option><option>מחזיקי מפתחות</option><option>חלקים נעים</option><option>מיוחדים</option><option>מוצרים בעיצוב אישי</option>
+                        <option value="קליקרים">קליקרים</option>
+                        <option value="מחזיקי מפתחות">מחזיקי מפתחות</option>
+                        <option value="חלקים נעים">חלקים נעים</option>
+                        <option value="מיוחדים">מיוחדים</option>
+                        <option value="מוצרים בעיצוב אישי">עיצוב אישי</option>
                     </select>
                 </div>
             </div>
             <label>תיאור קצר:</label><input type="text" id="wiz-desc" placeholder="משפט שמסביר על המוצר">
-            <label>שם קובץ תמונה (בתוך תיקיית images):</label><input type="text" id="wiz-img" placeholder="headstand.jpg">
-            
-            <label>צבעים לבחירה (הפרד בפסיק, למשל: לבן, שחור, כחול):</label>
-            <input type="text" id="wiz-pcolors" placeholder="השאר ריק למוצר ללא בחירת צבע">
-            
+            <label>שם קובץ תמונה (בתיקיית images):</label><input type="text" id="wiz-img" placeholder="stand.jpg">
+            <label>צבעים לבחירה (הפרד בפסיק):</label><input type="text" id="wiz-pcolors" placeholder="לבן, שחור, שקוף (השאר ריק אם אין)">
             <button class="btn btn-green" style="width:100%; margin-top:15px;" onclick="createProductFromWizard()">צרף לקטלוג למטה ↓</button>
         </div>
     </div>
 
     <div class="card" style="margin-bottom: 30px;">
-        <h2>📦 קטלוג המוצרים בפועל (סמן מלאי ועדכן מחירים)</h2>
+        <h2>📦 ניהול המלאי הקיים (עדכן קטגוריה, מחיר וזמינות)</h2>
         <div id="catalog-editor-list"></div>
     </div>
 
-    <div class="generator-zone">
-        <h2>⚡ סיימת לעדכן? לחץ כדי לייצר קוד שמירה</h2>
-        <button class="btn btn-green" style="font-size:1.2em; padding:15px 30px;" onclick="generateExport()">1. הפק קוד מעודכן</button>
+    <div class="generator-zone" id="export-zone">
+        <h2>⚡ סיימת לעדכן? לחץ כדי לארוז את הקוד</h2>
+        <button id="generate-btn" class="btn btn-green" style="font-size:1.25em; padding:16px 35px; box-shadow: 0 4px 12px rgba(56,161,105,0.4);" onclick="generateExport()">
+            1. לחץ כאן להפקת קוד מעודכן
+        </button>
         
-        <div id="copy-section" style="display:none;">
+        <div id="copy-section" style="display:none; margin-top: 20px;">
             <textarea id="export-code-area" readonly></textarea>
-            <br>
-            <button class="btn" style="background:#ecc94b; color:#000; font-size:1.1em;" onclick="copyCode()">2. העתיק קוד ללוח</button>
-            <p style="font-size:0.9em; color:#a0aec0; margin-top:10px;">לאחר ההעתקה: פתח בגיטהאב את products.js -> ערוך -> הדבק במקום הקיים -> שמור!</p>
+            <button class="btn" style="background:#f59e0b; color:#000; font-size:1.15em; padding: 12px 25px;" onclick="copyCode()">
+                📋 2. העתיק קוד מוכן ללוח
+            </button>
+            <p style="font-size:0.85em; color:#94a3b8; margin-top:10px;">
+                פתחת בגיטהאב את products.js -> הדבק על הקיים -> לחץ Commit!
+            </p>
         </div>
     </div>
 
     <script src="products.js"></script>
     <script>
+        const CATEGORIES = ["קליקרים", "מחזיקי מפתחות", "חלקים נעים", "מיוחדים", "מוצרים בעיצוב אישי"];
         let currSettings, currProducts;
 
         function initAdmin() {
-            if (typeof catalogProducts === 'undefined') {
-                alert("שגיאה קריטית: קובץ products.js לא הצליח להיטען.");
+            const statusBar = document.getElementById('status-bar');
+            statusBar.style.display = 'block';
+
+            if (typeof catalogProducts === 'undefined' || typeof storeSettings === 'undefined') {
+                statusBar.style.background = '#fed7d7';
+                statusBar.style.color = '#9b2c2c';
+                statusBar.innerHTML = '🚨 שגיאה: קובץ הנתונים products.js לא נטעון בהצלחה. ודא ששמרת אותו בשלב הקודם!';
                 return;
             }
+
+            statusBar.style.background = '#c6f6d5';
+            statusBar.style.color = '#22543d';
+            statusBar.innerHTML = `🟢 מערכת מחוברת תקין | מזהה ${catalogProducts.length} מוצרים פעילים בקטלוג`;
+
             currSettings = JSON.parse(JSON.stringify(storeSettings));
             currProducts = JSON.parse(JSON.stringify(catalogProducts));
 
@@ -136,9 +157,9 @@
             wrap.innerHTML = '';
             currSettings.coupons.forEach((c, idx) => {
                 wrap.innerHTML += `
-                    <div class="row" style="margin-bottom:6px; background:#edf2f7; padding:6px; border-radius:4px;">
+                    <div class="row" style="margin-bottom:6px; background:#f1f5f9; padding:8px; border-radius:4px;">
                         <strong style="flex:1;">${c.code} (${c.discountPercent}%)</strong>
-                        <button class="btn btn-red" onclick="removeCoupon(${idx})">מחק</button>
+                        <button class="btn-red" onclick="removeCoupon(${idx})">מחק</button>
                     </div>`;
             });
         }
@@ -155,21 +176,49 @@
 
         function removeCoupon(idx) { currSettings.coupons.splice(idx, 1); renderCoupons(); }
 
-        // כאן היה הבאג - תוקן ל-${idx}
         function renderCatalogEditor() {
             const wrap = document.getElementById('catalog-editor-list');
             wrap.innerHTML = '';
-            currProducts.forEach((p, idx) => {
+            
+            currProducts.forEach(p => {
+                const catOptions = CATEGORIES.map(cat => 
+                    `<option value="${cat}" ${p.category === cat ? 'selected' : ''}>${cat}</option>`
+                ).join('');
+
                 wrap.innerHTML += `
                     <div class="prod-item">
-                        <div><strong>${p.name}</strong> <span style="color:#718096; font-size:0.85em;">[${p.category}]</span></div>
-                        <div class="row">
-                            <label style="margin:0;">מחיר: <input type="number" value="${p.price}" style="width:70px" oninput="currProducts[${idx}].price=Number(this.value)"> ₪</label>
-                            <label style="margin:0;"><input type="checkbox" ${p.inStock ? 'checked':''} onchange="currProducts[${idx}].inStock=this.checked"> במלאי</label>
-                            <button class="btn btn-red" onclick="currProducts.splice(${idx},1); renderCatalogEditor();">מחק</button>
+                        <div style="flex: 1; min-width: 140px;">
+                            <strong style="font-size:1.05em;">${p.name}</strong>
+                        </div>
+                        <div class="row" style="flex-wrap: wrap;">
+                            <label style="margin:0;">קטגוריה:
+                                <select style="width: auto; padding:4px;" onchange="updateProductField('${p.id}', 'category', this.value)">
+                                    ${catOptions}
+                                </select>
+                            </label>
+                            
+                            <label style="margin:0;">מחיר: 
+                                <input type="number" value="${p.price}" style="width:65px; padding:4px;" oninput="updateProductField('${p.id}', 'price', Number(this.value))"> ₪
+                            </label>
+                            
+                            <label style="margin:0; cursor:pointer;">
+                                <input type="checkbox" ${p.inStock ? 'checked':''} onchange="updateProductField('${p.id}', 'inStock', this.checked)"> במלאי
+                            </label>
+                            
+                            <button class="btn-red" onclick="deleteProductById('${p.id}')">מחק</button>
                         </div>
                     </div>`;
             });
+        }
+
+        function updateProductField(prodId, field, value) {
+            const prod = currProducts.find(p => p.id === prodId);
+            if (prod) prod[field] = value;
+        }
+
+        function deleteProductById(prodId) {
+            currProducts = currProducts.filter(p => p.id !== prodId);
+            renderCatalogEditor();
         }
 
         function createProductFromWizard() {
@@ -187,22 +236,15 @@
                 inStock: true
             };
 
-            const colors = document.getElementById('wiz-pcolors').value.split(',').map(s=>s.trim()).filter(s=>s);
-            if(colors.length > 0) {
-                newObj.colors = { primary: colors };
-            }
+            const colorsStr = document.getElementById('wiz-pcolors').value;
+            const colors = colorsStr ? colorsStr.split(',').map(s=>s.trim()).filter(s=>s) : [];
+            if(colors.length > 0) newObj.colors = { primary: colors };
 
             currProducts.push(newObj);
             renderCatalogEditor();
             
-            // איפוס השדות באשף
-            document.getElementById('wiz-name').value = '';
-            document.getElementById('wiz-price').value = '';
-            document.getElementById('wiz-desc').value = '';
-            document.getElementById('wiz-img').value = '';
-            document.getElementById('wiz-pcolors').value = '';
-            
-            alert(`"${name}" נוסף לקטלוג למטה! לחץ על הפקת קוד כדי לשמור אותו לתמיד.`);
+            ['wiz-name', 'wiz-price', 'wiz-desc', 'wiz-img', 'wiz-pcolors'].forEach(id => document.getElementById(id).value = '');
+            alert(`"${name}" נוסף בהצלחה לרשימת הקטלוג למטה!`);
         }
 
         function calcPrint() {
@@ -211,29 +253,45 @@
             const cost = (g * 0.09) + (h * 1.5); 
             const sell = cost * 3.5;
             document.getElementById('calc-res').innerHTML = `
-                עלות ייצור משוערת: <b>${cost.toFixed(1)} ₪</b><br>
-                מחיר מכירה מומלץ (רווח בריא): <b style="color:#2f855a; font-size:1.15em;">${Math.round(sell)} ₪</b>
+                עלות ייצור עצמית: <b>${cost.toFixed(1)} ₪</b> | מחיר מומלץ ללקוח: <b style="color:#16a34a; font-size:1.1em;">${Math.round(sell)} ₪</b>
             `;
         }
 
         function generateExport() {
-            currSettings.announcement.active = document.getElementById('ann-active').checked;
-            currSettings.announcement.text = document.getElementById('ann-text').value.trim();
-            currSettings.vacationMode.active = document.getElementById('vac-active').checked;
-            currSettings.vacationMode.message = document.getElementById('vac-msg').value.trim();
+            const btn = document.getElementById('generate-btn');
+            const copyZone = document.getElementById('copy-section');
+            const textArea = document.getElementById('export-code-area');
 
-            const output = `const storeSettings = ${JSON.stringify(currSettings, null, 2)};\n\nconst catalogProducts = ${JSON.stringify(currProducts, null, 2)};`;
-            
-            document.getElementById('export-code-area').value = output;
-            document.getElementById('copy-section').style.display = 'block';
-            document.getElementById('copy-section').scrollIntoView({behavior: 'smooth'});
+            // אפקט לחיצה פיזי
+            btn.innerText = "⏳ אורז נתונים...";
+            btn.style.backgroundColor = "#eab308";
+
+            setTimeout(() => {
+                currSettings.announcement.active = document.getElementById('ann-active').checked;
+                currSettings.announcement.text = document.getElementById('ann-text').value.trim();
+                currSettings.vacationMode.active = document.getElementById('vac-active').checked;
+                currSettings.vacationMode.message = document.getElementById('vac-msg').value.trim();
+
+                const output = `const storeSettings = ${JSON.stringify(currSettings, null, 2)};\n\nconst catalogProducts = ${JSON.stringify(currProducts, null, 2)};`;
+                
+                textArea.value = output;
+                copyZone.style.display = 'block';
+
+                btn.innerText = "✅ הקוד עודכן בהצלחה למטה! (לחץ שוב אם שינית שוב)";
+                btn.style.backgroundColor = "#16a34a";
+
+                // פלאש ירוק על תיבת הטקסט להסבת תשומת לב
+                textArea.style.outline = "4px solid #4ade80";
+                setTimeout(() => { textArea.style.outline = "none"; }, 700);
+
+            }, 250);
         }
 
         function copyCode() {
             const area = document.getElementById('export-code-area');
             area.select();
             navigator.clipboard.writeText(area.value);
-            alert("הקוד הועתק! עכשיו הדבק אותו בתוך products.js בגיטהאב ושמור.");
+            alert("הקוד הועתק! פתח בגיטהאב את products.js והדבק.");
         }
 
         window.onload = initAdmin;
